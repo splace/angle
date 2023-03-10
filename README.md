@@ -1,6 +1,12 @@
 # angle
 dealing with angles in a sensible way, or, angles typed
 
+formats as human readable as used in various fields
+
+>> 
+
+converters to all major unit scales.
+
 # angles encoded as ints.
 
 An Angle is a uint32 with its whole range as one revolution.
