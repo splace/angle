@@ -42,10 +42,23 @@ func ExampleAngleMin() {
 }
 
 func ExampleAnglesBinary() {
-	fmt.Printf("%+.2[1]d %+.0[1]l\n", BinaryDegree)
+	fmt.Printf("%+.2[1]d %+.0[1]l\n", Angle(1 << (bits - 8)))
 	// Output:
 	// 1.41° 1°24′23″
 }
+
+func ExampleAnglesMultiply() {
+	fmt.Printf("%+.4d\n",Second*60*60)
+	// Output:
+	// 1.0000°
+}
+
+func ExampleAnglesTurns() {
+	fmt.Printf("%+.2t\n",RightAngle)
+	// Output:
+	// 0.25⟳
+}
+
 
 func TestAngles(t *testing.T) {
 
