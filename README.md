@@ -1,6 +1,8 @@
 # angle
 dealing with angles in a sensible way, or, angles typed
 
+Overview/docs: [![GoDoc](https://godoc.org/github.com/splace/angle?status.svg)](https://godoc.org/github.com/splace/angle)
+
 formats as human readable as used in various fields
 
 ``` golang
