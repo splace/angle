@@ -3,26 +3,28 @@ package angle
 import "strconv"
 import "fmt"
 
-// # angles encoded as ints.
-// An Angle is a uint32 with its whole range as one revolution.
-// Since its max approaches one rotation, its modulus behaviour matches a rotation modulus, so you get restricted within one revolution automatically.
-// Note: constants report an out of range error when used beyond one rotation, replace with variables.
-// Angles dont make sense when multipled by other angles.
-// Where a float representation would have higher precision the closer to zero value, Angle has fixed precision and also away from zero is more precise than a float32.
-// 360 degrees (or 2Pi radians etc.) is just 0, and so is encoded/returned as 0 degrees. ( or 0 radians etc).
-// Power of two fractions of a rotation are represented exactly, eg. 64*BinaryDegree==RightAngle, but in general multiplying a unit can result in an in-exact representation, eg. 90*Degree!=RightAngle, (but RightAngle/90==Degree) use the usual approachs to limit rounding errors.
+// # angle; encoded as uints.
+// An Angle is a uint32 with its whole range representing a single revolution.
+// so that the modulus behaviour of the uint matches one rotation, you are restricted within one revolution automatically, no range testing.
+// Note: constants report an out of range error when used beyond one rotation, replace with variables or just convert to be within one revolution, its the same.
+// Where a float representation would have a higher precision the closer to the zero value, Angle has fixed precision and also away from zero is more precise than an same sized float.
+// FYI Angles don't make sense when multiplied by other angles.
+// maths involving an intermediate step of a small angle, a float can be used to avoid the potential for lost precision. in these cases multiplying the 'float' angle makes sense, since its going to be an angle difference. (angle differences have an actual zero, where Angles don't, cf time and duration)
+// 360 degrees (or 2Pi radians etc.) is the same as 0 (any units) and so is encoded/returned as 0 degrees.(or any other unit).
+// Power of two fractions of a rotation are represented exactly, eg. 64*BinaryDegree==RightAngle, but in general multiplying a unit can result in an in-exact representation, eg. 90*Degree!=RightAngle, (but RightAngle/90==Degree) use the usual approaches to limit rounding errors.
 type Angle uint32
 
 const (
-	bits         = 32  // allow simple generation of differnt precision packages
+	bits         = 32  // allow simple generation of different precision packages
 	Degree Angle = 1 << (bits - 2) / 90
 	Minute Angle = 1 << (bits - 2) / (90 * 60)
 	Second Angle = 1 << (bits - 2) / (90 * 60 * 60)
 	Radian Angle = (2935890503282001408) >> (64 - bits) // math.MaxUint64 / (2 * math.Pi )
 	Gradian Angle = 1 << (bits - 2) / 100
 
-	// exact representions
+	// exact representation
 	RightAngle   Angle = 1 << (bits - 2)
+	Rotation Angle = 1 << bits -1
 	BinaryDegree Angle = 1 << (bits - 8) // 256 per rotation.  equal to about about 1.42 degrees
 
 	// internal optimisation
@@ -31,6 +33,7 @@ const (
 	secondRecip       = 1.0 / float64(Second)
 	radianRecip       = 1.0 / float64(Radian)
 	gradianRecip      = 1.0 / float64(Gradian)
+	rotationRecip      = 1.0 / float64(Rotation)
 	binaryDegreeRecip = 1.0 / float64(BinaryDegree)
 )
 
@@ -100,8 +103,11 @@ func (a Angle) Format(f fmt.State, r rune) {
 			f.Write([]byte("NNW"))
 		}
 		return
+	case 't':
+		vfn = a.Rotations
+		r = '⟳'
 	case 'b':
-		vfn = a.BinaryDegree
+		vfn = a.BinaryDegrees
 	case 'd', 'v':
 		r = '°'
 		fallthrough
@@ -140,15 +146,11 @@ func (a Angle) Gradians() float64 {
 	return float64(a) * gradianRecip
 }
 
-func (a Angle) BinaryDegree() float64 {
-	return float64(a) * binaryDegreeRecip
+func (a Angle) Rotations() float64 {
+	return float64(a) * rotationRecip
 }
 
-// helper for a range of angles that might cross zero
-func (a Angle) Between(start,end Angle) bool {
-	if end>start{
-		return a>=start && a<=end
-	}
-	return a>=start || a<=end
+func (a Angle) BinaryDegrees() float64 {
+	return float64(a) * binaryDegreeRecip
 }
 
