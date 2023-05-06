@@ -1,9 +1,14 @@
 # angle
-dealing with angles in a sensible way, or, angles typed
+
+this is an attempt at a general nice-n-clean (hiding the solution-space) way of using angles, or, 'typed' angles.
+
+could be compared with std. lib. Time/Duration.
 
 Overview/docs: [![GoDoc](https://godoc.org/github.com/splace/angle?status.svg)](https://godoc.org/github.com/splace/angle)
 
-formats as human readable as used in various fields
+different scalings (degrees, radians etc) are out of context, left for human readability and access to hardware acceleration. 
+
+angles in various human readable formats...
 
 ``` golang
 
@@ -15,23 +20,23 @@ func ExampleAngles() {
 	// 90.0 degrees == 1.5707964㎭ == 90°0′0.0″ == 324002″ == 100.0ᵍ
 
 }
-
-
 ```
-
-converters to all major unit scales.
 
 # angles encoded as ints.
 
-An Angle is a uint32 with its whole range as one revolution.
+Here an Angle is a uint32 with its whole range representing one revolution.
 
 Since its max approaches one rotation, its modulus behaviour matches a rotation modulus, so you get restricted within one revolution automatically.
 
-Note: constants report an out of range error when used beyond one rotation, replace with variables.
-Angles dont make sense when multipled by other angles.
+Notice: 'real' Angles arn't multipled by other angles.
 
-Where a float representation would have higher precision the closer to zero value, Angle has fixed precision and also away from zero is more precise than a float32.
+Angles, rather then angle differences, are symetrical, no particular value is special, so a float representation with its higher precision closer to the zero value, is a mismatched behaviour.
+
+Formula, say involving sin/cos, with intermediate steps involving small angles, needs to be handled with floats throughout (unless rounding errors when using this Angle is determined to be OK). these intermediate steps might be considered as not being 'real' angles so this might be expected. 
 
 360 degrees (or 2Pi radians etc.) is just 0, and so is encoded/returned as 0 degrees. ( or 0 radians etc).
 
-Power of two fractions of a rotation are represented exactly, eg. 64*BinaryDegree==RightAngle, but in general multiplying a unit can result in an in-exact representation, eg. 90*Degree!=RightAngle, (but RightAngle/90==Degree) use the usual approachs to limit rounding errors.
+Power of two fractions of a rotation, are represented exactly, eg. 64*BinaryDegree==RightAngle, but in general multiplying a scaled angle can result in an in-exact representation, eg. 90*Degree!=RightAngle, (but RightAngle/90==Degree) use the usual approachs to limit rounding errors.
+
+Note: constants report an out of range error when used beyond one rotation, replace with variables.
+
