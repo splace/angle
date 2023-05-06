@@ -1,24 +1,22 @@
 package angle
 
-type sweep struct{
-	from,until Angle
-}
+type sweep [2]Angle
 
 func (s sweep) interpolate(divs,i uint) float64{ 
-	return float64(s.until-s.from)*float64(i)/float64(divs)
+	return float64(s[1]-s[0])*float64(i)/float64(divs)
 }
 
 type SweepCW sweep
 
 func (s SweepCW) Contains(a Angle) bool {
-	if s.until>s.from{
-		return a>=s.from && a<s.until
+	if s[1]>s[0]{
+		return a>=s[0] && a<s[1]
 	}
-	return a>=s.from || a<s.until
+	return a>=s[0] || a<s[1]
 }
 
 func (s SweepCW) Intermediate(divs,i uint) Angle {
-	return s.from+Angle(sweep(s).interpolate(divs,i))
+	return s[0]+Angle(sweep(s).interpolate(divs,i))
 }
 
 type SweepCCW sweep
@@ -28,7 +26,8 @@ func (s SweepCCW) Contains(a Angle) bool {
 }
 
 func (s SweepCCW) Intermediate(divs,i uint) Angle {
-	return s.from-Angle(sweep{s.until,s.from}.interpolate(divs,i))
+	s[0],s[1]=s[1],s[0]
+	return s[1]-Angle(sweep(s).interpolate(divs,i))
 }
 
 
