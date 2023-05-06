@@ -53,6 +53,15 @@ func ExampleAnglesMultiply() {
 	// 1.0000°
 }
 
+func ExampleAnglesMultiplyOverflow() {
+	a:=Degree // have to use var in order to prevent error message
+	fmt.Printf("%+.3d\n",a*1000)
+	fmt.Printf("%+.3d\n",-a* 1000)
+	// Output:
+	// 280.000°
+	// 80.000°
+}
+
 func ExampleAnglesTurns() {
 	fmt.Printf("%+.2t\n",RightAngle)
 	// Output:

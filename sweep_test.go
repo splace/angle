@@ -2,13 +2,11 @@ package angle
 
 import "fmt"
 
-// sweep clockwise from 390 to 10 gradiens show degree
-// Note 10gradiens == 9degrees, so 9 divisions splitting 20 gradiens will be in 2 degree steps.
-func ExampleSweep() {
-	s:=SweepCW{390*Gradian,10*Gradian}
-	divisions:=uint(9)
-	for i:=uint(0);i<=divisions;i++{
-		fmt.Printf("%+.4v ",s.Intermediate(divisions,i))
+// range clockwise 20 gradiens from 390 gradiens, show degree.
+// Note 10gradiens == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
+func ExampleSweepStepped() {
+	for a:= range Over(NewRange(390,20,Gradian),9){
+		fmt.Printf("%+.4v ",a)
 	}
 	// Output:
 	// 351.0000° 353.0000° 355.0000° 357.0000° 359.0000° 1.0000° 3.0000° 5.0000° 7.0000° 9.0000°
@@ -22,7 +20,7 @@ func ExampleSweepConains() {
 	fmt.Println(SweepCW{2*RightAngle,0}.Contains(RightAngle))
 	fmt.Println(SweepCW{3*RightAngle,RightAngle}.Contains(0))
 
-	fmt.Println(SweepCCW{RightAngle,3*RightAngle}.Contains(RightAngle))
+	fmt.Println(SweepCCW{RightAngle,3*RightAngle}.Contains(2*RightAngle))
 	fmt.Println(SweepCCW{3*RightAngle,2*RightAngle}.Contains(0))
 	fmt.Println(SweepCCW{3*RightAngle,2*RightAngle}.Contains(RightAngle))
 	fmt.Println(SweepCCW{0,2*RightAngle}.Contains(3*RightAngle))
@@ -35,7 +33,7 @@ func ExampleSweepConains() {
 	// false
 	// false
 	// true	
-	// true
+	// false
 	// false
 	// false
 	// true	
