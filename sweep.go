@@ -1,5 +1,19 @@
 package angle
 
+type Delta int32
+
+type Range interface{
+	Contains(Angle)bool
+	Intermediate(uint,uint) Angle
+}
+
+func NewSweep(start uint32, offset int32, unit Angle) Range{
+	if offset<0 {
+		return SweepCCW{Angle(start)*unit,Angle(start)*unit-Angle(offset)*unit}
+	}
+	return SweepCW{Angle(start)*unit,Angle(start)*unit+Angle(offset)*unit}
+}
+
 type sweep [2]Angle
 
 func (s sweep) interpolate(divs,i uint) float64{ 

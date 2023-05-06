@@ -5,7 +5,7 @@ import "fmt"
 // sweep clockwise from 390 to 10 gradiens show degree
 // Note 10gradiens == 9degrees, so 9 divisions splitting 20 gradiens will be in 2 degree steps.
 func ExampleSweep() {
-	s:=SweepCW{390*Gradian,10*Gradian}
+	s:=NewSweep(390,20,Gradian)
 	divisions:=uint(9)
 	for i:=uint(0);i<=divisions;i++{
 		fmt.Printf("%+.4v ",s.Intermediate(divisions,i))
