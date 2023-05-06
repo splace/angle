@@ -2,13 +2,11 @@ package angle
 
 import "fmt"
 
-// sweep clockwise from 390 to 10 gradiens show degree
-// Note 10gradiens == 9degrees, so 9 divisions splitting 20 gradiens will be in 2 degree steps.
-func ExampleSweep() {
-	s:=NewSweep(390,20,Gradian)
-	divisions:=uint(9)
-	for i:=uint(0);i<=divisions;i++{
-		fmt.Printf("%+.4v ",s.Intermediate(divisions,i))
+// range clockwise 20 gradiens from 390 gradiens, show degree.
+// Note 10gradiens == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
+func ExampleSweepStepped() {
+	for a:= range Over(NewRange(390,20,Gradian),9){
+		fmt.Printf("%+.4v ",a)
 	}
 	// Output:
 	// 351.0000° 353.0000° 355.0000° 357.0000° 359.0000° 1.0000° 3.0000° 5.0000° 7.0000° 9.0000°
