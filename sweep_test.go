@@ -22,7 +22,7 @@ func ExampleSweepConains() {
 	fmt.Println(SweepCW{2*RightAngle,0}.Contains(RightAngle))
 	fmt.Println(SweepCW{3*RightAngle,RightAngle}.Contains(0))
 
-	fmt.Println(SweepCCW{RightAngle,3*RightAngle}.Contains(RightAngle))
+	fmt.Println(SweepCCW{RightAngle,3*RightAngle}.Contains(2*RightAngle))
 	fmt.Println(SweepCCW{3*RightAngle,2*RightAngle}.Contains(0))
 	fmt.Println(SweepCCW{3*RightAngle,2*RightAngle}.Contains(RightAngle))
 	fmt.Println(SweepCCW{0,2*RightAngle}.Contains(3*RightAngle))
@@ -35,7 +35,7 @@ func ExampleSweepConains() {
 	// false
 	// false
 	// true	
-	// true
+	// false
 	// false
 	// false
 	// true	
