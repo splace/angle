@@ -1,27 +1,5 @@
 package angle
 
-type Range interface{
-	Contains(Angle)bool
-	Intermediate(uint,uint) Angle
-}
-
-func NewRange(start uint32, offset int32, unit Angle) Range{
-	if offset<0 {
-		return SweepCCW{Angle(start)*unit,Angle(start)*unit-Angle(offset)*unit}
-	}
-	return SweepCW{Angle(start)*unit,Angle(start)*unit+Angle(offset)*unit}
-}
-
-func Over(r interface{Intermediate(uint,uint) Angle}, steps uint) <-chan Angle{
-	as:=make(chan Angle)
-	go func(){
-		for i:=uint(0);i<=steps;i++{
-			as <- r.Intermediate(steps,i)
-		}
-		close(as)
-	}()
-	return (<-chan Angle)(as)
-}
 
 type sweep [2]Angle
 
@@ -53,4 +31,26 @@ func (s SweepCCW) Intermediate(divs,i uint) Angle {
 	return s[1]-Angle(sweep(s).interpolate(divs,i))
 }
 
+type Range interface{
+	Contains(Angle)bool
+	Intermediate(uint,uint) Angle
+}
+
+func NewRange(start uint32, offset int32, unit Angle) Range{
+	if offset<0 {
+		return SweepCCW{Angle(start)*unit,Angle(start)*unit-Angle(offset)*unit}
+	}
+	return SweepCW{Angle(start)*unit,Angle(start)*unit+Angle(offset)*unit}
+}
+
+func Over(r interface{Intermediate(uint,uint) Angle}, steps uint) <-chan Angle{
+	as:=make(chan Angle)
+	go func(){
+		for i:=uint(0);i<=steps;i++{
+			as <- r.Intermediate(steps,i)
+		}
+		close(as)
+	}()
+	return (<-chan Angle)(as)
+}
 
