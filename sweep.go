@@ -2,38 +2,38 @@ package angle
 
 type Direction bool
 
-type Turn struct{
+type To struct{
 	Angle
 	Direction
 }
 
-func NewClockwise(a Angle)Turn{
-	return Turn{a,true}
+func NewCWTo(a Angle)To{
+	return To{a,true}
 }
 
-func NewCounterClockwise(a Angle)Turn{
-	return Turn{a,false}
+func NewCCWTo(a Angle)To{
+	return To{a,false}
 }
 
 
 type Sweep struct{
 	Angle
-	Turn
+	To
 }
 
 func (s Sweep) Contains(a Angle) bool {
-	if s.Angle+s.Turn.Angle>s.Angle{
-		return (a>=s.Angle && a<s.Turn.Angle)==s.Turn.Direction
+	if s.Angle+s.To.Angle>s.Angle{
+		return (a>=s.Angle && a<s.To.Angle)==s.To.Direction
 	}
-	return (a>=s.Angle || a<s.Turn.Angle)==s.Turn.Direction
+	return (a>=s.Angle || a<s.To.Angle)==s.To.Direction
 }
 
 func (s Sweep) interpolate(divs,i uint) float64{ 
-	return float64(s.Turn.Angle)*float64(i)/float64(divs)
+	return float64(s.To.Angle)*float64(i)/float64(divs)
 }
 
 func (s Sweep) Intermediate(divs,i uint) Angle {
-	if s.Turn.Direction{
+	if s.To.Direction{
 		return s.Angle+Angle(s.interpolate(divs,i))
 	}
 	return s.Angle-Angle(s.interpolate(divs,i))
