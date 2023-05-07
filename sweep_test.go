@@ -3,8 +3,6 @@ package angle
 import "fmt"
 
 
-
-
 func ExampleSweepContains() {
 	fmt.Println(Sweep{RightAngle,NewClockwise(3*RightAngle)}.Contains(RightAngle))
 	fmt.Println(Sweep{3*RightAngle,NewClockwise(2*RightAngle)}.Contains(0))
