@@ -1,6 +1,6 @@
 package angle
 
-// angular region from an Angle upto a To.
+// angular region from an Angle up to a To.
 type Sweep struct{
 	Angle
 	To
