@@ -2,10 +2,11 @@ package angle
 
 import "fmt"
 
-// range clockwise 20 gradiens from 390 gradiens, show degree.
+// range clockwise 20 gradians from 390 gradians, show degree.
 // Note 10gradiens == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
 func ExampleSweepStepped() {
-	for a:= range Over(NewRange(390,20,Gradian),9){
+	s:=Gradian*10 // slightly more precise than using bit multiplier ie Gradian*390
+	for a:= range Over(NewRange(-s,Gradian*20,true),9){
 		fmt.Printf("%+.4v ",a)
 	}
 	// Output:

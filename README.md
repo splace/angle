@@ -22,7 +22,7 @@ func ExampleAngles() {
 }
 ```
 
-# angles encoded as ints.
+# angles encoded as integers.
 
 Here an Angle is a uint32 with its whole range representing one revolution.
 
@@ -39,4 +39,11 @@ Formula, say involving sin/cos, with intermediate steps involving small angles, 
 Power of two fractions of a rotation, are represented exactly, eg. 64*BinaryDegree==RightAngle, but in general multiplying a scaled angle can result in an in-exact representation, eg. 90*Degree!=RightAngle, (but RightAngle/90==Degree) use the usual approachs to limit rounding errors.
 
 Note: constants report an out of range error when used beyond one rotation, replace with variables.
+
+# sweep accross angles
+
+[![Example]](https://go.dev/play/p/_nHhkb2AlS9)
+
+range clockwise 20 gradiens from 390 gradians, show degree.
+Note 10gradians == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
 

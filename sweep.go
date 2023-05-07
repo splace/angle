@@ -36,11 +36,11 @@ type Range interface{
 	Intermediate(uint,uint) Angle
 }
 
-func NewRange(start uint32, offset int32, unit Angle) Range{
-	if offset<0 {
-		return SweepCCW{Angle(start)*unit,Angle(start)*unit-Angle(offset)*unit}
+func NewRange(start , offset  Angle, cw bool) Range{
+	if !cw{
+		return SweepCCW{start,start-offset}
 	}
-	return SweepCW{Angle(start)*unit,Angle(start)*unit+Angle(offset)*unit}
+	return SweepCW{start,start+offset}
 }
 
 func Over(r interface{Intermediate(uint,uint) Angle}, steps uint) <-chan Angle{
