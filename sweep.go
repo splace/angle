@@ -15,7 +15,6 @@ func NewCCWTo(a Angle)To{
 	return To{a,false}
 }
 
-
 type Sweep struct{
 	Angle
 	To
@@ -38,7 +37,6 @@ func (s Sweep) Intermediate(divs,i uint) Angle {
 	}
 	return s.Angle-interpolate(s.To.Angle,divs,i)
 }
-
 
 func Over(s Sweep, steps uint) <-chan Angle{
 	as:=make(chan Angle)
