@@ -44,7 +44,7 @@ Note: constants report an out of range error when used beyond one rotation, repl
 
 encodes an angle difference and so has a direction. (Counter)Clockwise.
 
-## [Sweep Iteration Example](https://go.dev/play/p/uUAssZRESC3)
+## [Sweep Iteration Example](https://go.dev/play/p/ZNazzSRqN6o)
 
 range clockwise 20 gradiens from 390 gradians, show degree.
 Note 10gradians == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.

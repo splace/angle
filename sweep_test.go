@@ -4,19 +4,19 @@ import "fmt"
 
 
 func ExampleSweepContains() {
-	fmt.Println(Sweep{RightAngle,NewCWTo(3*RightAngle)}.Contains(RightAngle))
-	fmt.Println(Sweep{3*RightAngle,NewCWTo(2*RightAngle)}.Contains(0))
-	fmt.Println(Sweep{3*RightAngle,NewCWTo(2*RightAngle)}.Contains(RightAngle))
-	fmt.Println(Sweep{0,NewCWTo(2*RightAngle)}.Contains(3*RightAngle))
-	fmt.Println(Sweep{2*RightAngle,NewCWTo(0)}.Contains(RightAngle))
-	fmt.Println(Sweep{3*RightAngle,NewCWTo(RightAngle)}.Contains(0))
+	fmt.Println(Sweep{RightAngle,To{3*RightAngle,CW}}.Contains(RightAngle))
+	fmt.Println(Sweep{3*RightAngle,To{2*RightAngle,CW}}.Contains(0))
+	fmt.Println(Sweep{3*RightAngle,To{2*RightAngle,CW}}.Contains(RightAngle))
+	fmt.Println(Sweep{0,To{2*RightAngle,CW}}.Contains(3*RightAngle))
+	fmt.Println(Sweep{2*RightAngle,To{0,CW}}.Contains(RightAngle))
+	fmt.Println(Sweep{3*RightAngle,To{RightAngle,CW}}.Contains(0))
 
-	fmt.Println(Sweep{RightAngle,NewCCWTo(3*RightAngle)}.Contains(2*RightAngle))
-	fmt.Println(Sweep{3*RightAngle,NewCCWTo(2*RightAngle)}.Contains(0))
-	fmt.Println(Sweep{3*RightAngle,NewCCWTo(2*RightAngle)}.Contains(RightAngle))
-	fmt.Println(Sweep{0,NewCCWTo(2*RightAngle)}.Contains(3*RightAngle))
-	fmt.Println(Sweep{2*RightAngle,NewCCWTo(0)}.Contains(RightAngle))
-	fmt.Println(Sweep{3*RightAngle,NewCCWTo(RightAngle)}.Contains(0))
+	fmt.Println(Sweep{RightAngle,To{3*RightAngle,CCW}}.Contains(2*RightAngle))
+	fmt.Println(Sweep{3*RightAngle,To{2*RightAngle,CCW}}.Contains(0))
+	fmt.Println(Sweep{3*RightAngle,To{2*RightAngle,CCW}}.Contains(RightAngle))
+	fmt.Println(Sweep{0,To{2*RightAngle,CCW}}.Contains(3*RightAngle))
+	fmt.Println(Sweep{2*RightAngle,To{0,CCW}}.Contains(RightAngle))
+	fmt.Println(Sweep{3*RightAngle,To{RightAngle,CCW}}.Contains(0))
 	// Output:
 	// true
 	// true
@@ -37,7 +37,7 @@ func ExampleSweepContains() {
 // Note 10gradiens == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
 func ExampleSweepStepped() {
 	s:=Gradian*10 // slightly more precise than using upward multiplier ie Gradian*390
-	for a:= range Over(Sweep{-s,NewCWTo(Gradian*20)},9){
+	for a:= range Over(Sweep{-s,To{Gradian*20,CW}},9){
 		fmt.Printf("%+.4v ",a)
 	}
 	// Output:
@@ -45,13 +45,13 @@ func ExampleSweepStepped() {
 }
 
 func ExampleSweepDivided() {
-	s:=Sweep{RightAngle,NewCWTo(RightAngle)}
+	s:=Sweep{RightAngle,To{RightAngle,CW}}
 	fmt.Printf("%+.4t %+.4t %+.4t\n",s.Intermediate(90,0),s.Intermediate(90,45),s.Intermediate(90,90))
-	s=Sweep{3*RightAngle,NewCWTo(3*RightAngle)}
+	s=Sweep{3*RightAngle,To{3*RightAngle,CW}}
 	fmt.Printf("%+.4t %+.4t %+.4t\n",s.Intermediate(90,0),s.Intermediate(90,45),s.Intermediate(90,90))
-	s=Sweep{10*Degree,NewCWTo(340*Degree)}
+	s=Sweep{10*Degree,To{340*Degree,CW}}
 	fmt.Printf("%+.4d %+.4d %+.4d\n",s.Intermediate(90,0),s.Intermediate(90,45),s.Intermediate(90,90))
-	s=Sweep{350*Degree,NewCWTo(20*Degree)}
+	s=Sweep{350*Degree,To{20*Degree,CW}}
 	fmt.Printf("%+.4d %+.4d %+.4d\n",s.Intermediate(90,0),s.Intermediate(90,45),s.Intermediate(90,90))
 	// Output:
 	// 0.2500⟳ 0.3750⟳ 0.5000⟳
@@ -61,13 +61,13 @@ func ExampleSweepDivided() {
 }
 
 func ExampleSweepCCWDivided() {
-	s:=Sweep{3*RightAngle,NewCCWTo(RightAngle)}
+	s:=Sweep{3*RightAngle,To{RightAngle,CCW}}
 	fmt.Printf("%+.4t %+.4t %+.4t\n",s.Intermediate(90,0),s.Intermediate(90,45),s.Intermediate(90,90))
-	s=Sweep{2*RightAngle,NewCCWTo(3*RightAngle)}
+	s=Sweep{2*RightAngle,To{3*RightAngle,CCW}}
 	fmt.Printf("%+.4t %+.4t %+.4t\n",s.Intermediate(90,0),s.Intermediate(90,45),s.Intermediate(90,90))
-	s=Sweep{10*Degree,NewCCWTo(20*Degree)}
+	s=Sweep{10*Degree,To{20*Degree,CCW}}
 	fmt.Printf("%+.4d %+.4d %+.4d\n",s.Intermediate(90,0),s.Intermediate(90,45),s.Intermediate(90,90))
-	s=Sweep{350*Degree,NewCCWTo(340*Degree)}
+	s=Sweep{350*Degree,To{340*Degree,CCW}}
 	fmt.Printf("%+.4d %+.4d %+.4d\n",s.Intermediate(90,0),s.Intermediate(90,45),s.Intermediate(90,90))
 	// Output:
 	// 0.7500⟳ 0.6250⟳ 0.5000⟳
