@@ -20,6 +20,17 @@ func (s Sweep) Contains(a Angle) bool {
 	}
 }
 
+func (s Sweep) interpolate(divs,i uint) float64{ 
+	return float64(s.CW.Angle)*float64(i)/float64(divs)
+}
+
+func (s Sweep) Intermediate(divs,i uint) Angle {
+	if s.CW.bool{
+		return s.Angle+Angle(s.interpolate(divs,i))
+	}
+	return s.Angle-Angle(s.interpolate(divs,i))
+}
+
 type CW struct{
 	Angle
 	bool
