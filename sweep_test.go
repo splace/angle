@@ -39,7 +39,7 @@ func ExampleSweepContains() {
 // Note 10gradiens == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
 func ExampleSweepStepped() {
 	s:=Gradian*10 // slightly more precise than using bit multiplier ie Gradian*390
-	for a:= range Over(NewRange(-s,NewClockwise(Gradian*20)),9){
+	for a:= range Over(Sweep{-s,NewClockwise(Gradian*20)},9){
 		fmt.Printf("%+.4v ",a)
 	}
 	// Output:
