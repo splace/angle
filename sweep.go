@@ -40,12 +40,11 @@ func (s Sweep) Intermediate(divs,i uint) Angle {
 }
 
 
-
-func Over(r interface{Intermediate(uint,uint) Angle}, steps uint) <-chan Angle{
+func Over(s Sweep, steps uint) <-chan Angle{
 	as:=make(chan Angle)
 	go func(){
 		for i:=uint(0);i<=steps;i++{
-			as <- r.Intermediate(steps,i)
+			as <- s.Intermediate(steps,i)
 		}
 		close(as)
 	}()
