@@ -6,9 +6,9 @@ could be compared with std. lib. Time/Duration.
 
 Overview/docs: [![GoDoc](https://godoc.org/github.com/splace/angle?status.svg)](https://godoc.org/github.com/splace/angle)
 
-different scalings (degrees, radians etc) are out of context, left for human readability and access to hardware acceleration. 
+different scalings (degrees, radians etc) are out-of-context and only occure when human readability and/or access to hardware acceleration is required. 
 
-angles in various human readable formats...
+example of various human readable formats...
 
 ``` golang
 
@@ -22,7 +22,7 @@ func ExampleAngles() {
 }
 ```
 
-# angles encoded as integers.
+# encoded as integers.
 
 Here an Angle is a uint32 with its whole range representing one revolution.
 
@@ -30,9 +30,9 @@ Since its max approaches one rotation, its modulus behaviour matches a rotation 
 
 Notice: 'real' Angles arn't multipled by other angles.
 
-Angles, rather then angle differences, are symetrical, no particular value is special, so a float representation with its higher precision closer to the zero value, is a mismatched behaviour.
+Angles, rather than angle differences, are symetrical, no particular value is special, so a float representation with its higher precision closer to the zero value, is a mismatched behaviour.
 
-Formula, say involving sin/cos, with intermediate steps involving small angles, needs to be handled with floats throughout (unless rounding errors when using this Angle is determined to be OK). these intermediate steps might be considered as not being 'real' angles so this might be expected. 
+Formula, say involving sin/cos, with intermediate steps involving small angles, needs to be handled with floats throughout (unless rounding errors when using this Angle is determined to be OK). these intermediate steps might be considered as not being Angles but Angles differences, so this might be expected. 
 
 360 degrees (or 2Pi radians etc.) is just 0, and so is encoded/returned as 0 degrees. ( or 0 radians etc).
 
@@ -40,7 +40,9 @@ Power of two fractions of a rotation, are represented exactly, eg. 64*BinaryDegr
 
 Note: constants report an out of range error when used beyond one rotation, replace with variables.
 
-# sweep accross angles
+# Sweep
+
+encodes an angle difference and so has a direction. (Counter)Clockwise.
 
 [![Example]](https://go.dev/play/p/_nHhkb2AlS9)
 

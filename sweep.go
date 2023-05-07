@@ -1,10 +1,10 @@
 package angle
 
-type Direction bool
+type isClockwise bool
 
 type To struct{
 	Angle
-	Direction
+	isClockwise
 }
 
 func NewCWTo(a Angle)To{
@@ -23,9 +23,9 @@ type Sweep struct{
 
 func (s Sweep) Contains(a Angle) bool {
 	if s.Angle+s.To.Angle>s.Angle{
-		return (a>=s.Angle && a<s.To.Angle)==s.To.Direction
+		return (a>=s.Angle && a<s.To.Angle)==s.To.isClockwise
 	}
-	return (a>=s.Angle || a<s.To.Angle)==s.To.Direction
+	return (a>=s.Angle || a<s.To.Angle)==s.To.isClockwise
 }
 
 func interpolate(a Angle,divs,i uint) Angle{ 
@@ -33,7 +33,7 @@ func interpolate(a Angle,divs,i uint) Angle{
 }
 
 func (s Sweep) Intermediate(divs,i uint) Angle {
-	if s.To.Direction{
+	if s.To.isClockwise{
 		return s.Angle+interpolate(s.To.Angle,divs,i)
 	}
 	return s.Angle-interpolate(s.To.Angle,divs,i)
