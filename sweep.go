@@ -28,15 +28,15 @@ func (s Sweep) Contains(a Angle) bool {
 	return (a>=s.Angle || a<s.To.Angle)==s.To.Direction
 }
 
-func (s Sweep) interpolate(divs,i uint) float64{ 
-	return float64(s.To.Angle)*float64(i)/float64(divs)
+func interpolate(a Angle,divs,i uint) Angle{ 
+	return Angle(float64(a)*float64(i)/float64(divs))
 }
 
 func (s Sweep) Intermediate(divs,i uint) Angle {
 	if s.To.Direction{
-		return s.Angle+Angle(s.interpolate(divs,i))
+		return s.Angle+interpolate(s.To.Angle,divs,i)
 	}
-	return s.Angle-Angle(s.interpolate(divs,i))
+	return s.Angle-interpolate(s.To.Angle,divs,i)
 }
 
 
