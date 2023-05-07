@@ -1,11 +1,45 @@
 package angle
 
 
+type Sweep struct{
+	Angle
+	CW
+}
+
+func (s Sweep) Contains(a Angle) bool {
+	if s.CW.bool{
+		if s.Angle+s.CW.Angle>s.Angle{
+			return a>=s.Angle && a<s.CW.Angle
+		}
+		return a>=s.Angle || a<s.CW.Angle
+	}else{
+		if s.Angle+s.CW.Angle>s.Angle{
+			return !(a>=s.Angle && a<s.CW.Angle)
+		}
+		return !(a>=s.Angle || a<s.CW.Angle)
+	}
+}
+
+type CW struct{
+	Angle
+	bool
+}
+
+
+func NewClockwise(a Angle)CW{
+	return CW{a,true}
+}
+
+func NewCounterClockwise(a Angle)CW{
+	return CW{a,false}
+}
+
 type sweep [2]Angle
 
 func (s sweep) interpolate(divs,i uint) float64{ 
 	return float64(s[1]-s[0])*float64(i)/float64(divs)
 }
+
 
 type SweepCW sweep
 
@@ -36,11 +70,11 @@ type Range interface{
 	Intermediate(uint,uint) Angle
 }
 
-func NewRange(start , offset  Angle, cw bool) Range{
-	if !cw{
-		return SweepCCW{start,start-offset}
+func NewRange(start Angle, offset CW) Range{
+	if offset.bool{
+		return SweepCW{start,start+offset.Angle}
 	}
-	return SweepCW{start,start+offset}
+	return SweepCCW{start,start-offset.Angle}
 }
 
 func Over(r interface{Intermediate(uint,uint) Angle}, steps uint) <-chan Angle{
