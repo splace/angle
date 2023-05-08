@@ -1,12 +1,14 @@
 # Angle
 
-this is an attempt at a general nice-n-clean (hiding the solution-space) way of using angles. a 'typed' angle.
+this is an attempt at a general nice-n-clean (hiding the solution-space) way of using angles.
 
-could be compared with std. lib. Time/Duration.
+a 'typed' angle. potentially a pattern for other simular.
+
+(could be compared with std. lib. Time/Duration.)
 
 Overview/docs: [![GoDoc](https://godoc.org/github.com/splace/angle?status.svg)](https://godoc.org/github.com/splace/angle)
 
-different scalings (degrees, radians etc) are out-of-context and only occure when human readability and/or access to hardware acceleration is required. 
+different scalings (degrees, radians etc) are out-of-context. Only for human readability or access to external processes. (like hardware acceleration requiring radians)
 
 example of various human readable formats...
 
@@ -26,7 +28,7 @@ func ExampleAngles() {
 
 Here an Angle is a uint32 with its whole range representing one revolution.
 
-Since its max approaches one rotation, its modulus behaviour matches a rotation modulus, so you get restricted within one revolution automatically.
+Since its max approaches one rotation, its modulus behaviour matches a rotation modulus, so you get restricted within one revolution automatically. 
 
 Notice: 'real' Angles arn't multipled by other angles.
 
@@ -40,12 +42,14 @@ Power of two fractions of a rotation, are represented exactly, eg. 64*BinaryDegr
 
 Note: constants report an out of range error when used beyond one rotation, replace with variables.
 
-# Sweep
+# Sector
 
-encodes a region of angles, (and an angle difference) and so has a direction. (Counter)Clockwise.
+encodes a region between two angles, necessererily requiring a direction. (Counter)Clockwise.
 
-## [Sweep Iteration Example](https://go.dev/play/p/H5fRNCTrfnS)
-
-range clockwise 20 gradiens from 390 gradians, show degree.
+example: range clockwise 20 gradiens from 390 gradians, show degree.
 Note 10gradians == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
+
+[Sweep Iteration Example](https://go.dev/play/p/H5fRNCTrfnS)
+
+
 

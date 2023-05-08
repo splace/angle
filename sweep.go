@@ -35,6 +35,7 @@ func interpolate(a angle, divs, i uint) angle {
 	return angle(float64(a) * float64(i) / float64(divs))
 }
 
+// return an angle a number of even divisions along a sector
 func (s Sector) Intermediate(divs, i uint) angle {
 	if s.Direction {
 		return s.Angle + interpolate(s.To.Angle, divs, i)
@@ -42,6 +43,7 @@ func (s Sector) Intermediate(divs, i uint) angle {
 	return s.Angle - interpolate(s.To.Angle, divs, i)
 }
 
+// return a number of angles (one more than steps) evenly dividing a sector
 func Over(s Sector, steps uint) <-chan angle {
 	as := make(chan angle)
 	go func() {
