@@ -1,8 +1,11 @@
 package angle
 
+// distinguishing type for Angles with a, potentially, problem-space defined zero, so accessible.
+type Angle = angle
+
 // an angular region from an Angle up to a To.
 type Sector struct {
-	angle
+	Angle
 	To
 }
 
@@ -17,22 +20,16 @@ const (
 
 
 type To struct {
-	angle
+	Angle
 	Direction
 }
 
-// distinguishing type for Angles with a, potentially, problem-space defined zero.
-type Angle angle
-
-func NewOffset(a Angle,d Direction) To{
-	return To{angle(a),d}
-}
 
 func (s Sector) Contains(a angle) bool {
-	if s.angle+s.To.angle > s.angle {
-		return (a >= s.angle && a < s.To.angle) == s.To.Direction
+	if s.Angle+s.To.Angle > s.Angle {
+		return (a >= s.Angle && a < s.To.Angle) == s.To.Direction
 	}
-	return (a >= s.angle || a < s.To.angle) == s.To.Direction
+	return (a >= s.Angle || a < s.To.Angle) == s.To.Direction
 }
 
 func interpolate(a angle, divs, i uint) angle {
@@ -41,9 +38,9 @@ func interpolate(a angle, divs, i uint) angle {
 
 func (s Sector) Intermediate(divs, i uint) angle {
 	if s.To.Direction {
-		return s.angle + interpolate(s.To.angle, divs, i)
+		return s.Angle + interpolate(s.To.Angle, divs, i)
 	}
-	return s.angle - interpolate(s.To.angle, divs, i)
+	return s.Angle - interpolate(s.To.Angle, divs, i)
 }
 
 func Over(s Sector, steps uint) <-chan angle {
