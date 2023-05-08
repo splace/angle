@@ -1,6 +1,6 @@
-# angle
+# Angle
 
-this is an attempt at a general nice-n-clean (hiding the solution-space) way of using angles, or, 'typed' angles.
+this is an attempt at a general nice-n-clean (hiding the solution-space) way of using angles. a 'typed' angle.
 
 could be compared with std. lib. Time/Duration.
 
@@ -42,9 +42,9 @@ Note: constants report an out of range error when used beyond one rotation, repl
 
 # Sweep
 
-encodes an angle difference and so has a direction. (Counter)Clockwise.
+encodes a region of angles, (and an angle difference) and so has a direction. (Counter)Clockwise.
 
-## [Sweep Iteration Example](https://go.dev/play/p/ZNazzSRqN6o)
+## [Sweep Iteration Example](https://go.dev/play/p/H5fRNCTrfnS)
 
 range clockwise 20 gradiens from 390 gradians, show degree.
 Note 10gradians == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
