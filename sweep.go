@@ -3,7 +3,7 @@ package angle
 // distinguishing type for Angles with a, potentially, problem-space defined zero, so accessible.
 type Angle = angle
 
-// an angular region from an Angle up to a To.
+// an angular region from an Angle to a To.
 type Sector struct {
 	Angle
 	To
@@ -18,18 +18,17 @@ const (
 	CCW
 )
 
-
+// an angle and the direction taken to get to it.
 type To struct {
 	Angle
 	Direction
 }
 
-
 func (s Sector) Contains(a angle) bool {
 	if s.Angle+s.To.Angle > s.Angle {
-		return (a >= s.Angle && a < s.To.Angle) == s.To.Direction
+		return (a >= s.Angle && a < s.To.Angle) == s.Direction
 	}
-	return (a >= s.Angle || a < s.To.Angle) == s.To.Direction
+	return (a >= s.Angle || a < s.To.Angle) == s.Direction
 }
 
 func interpolate(a angle, divs, i uint) angle {
@@ -37,7 +36,7 @@ func interpolate(a angle, divs, i uint) angle {
 }
 
 func (s Sector) Intermediate(divs, i uint) angle {
-	if s.To.Direction {
+	if s.Direction {
 		return s.Angle + interpolate(s.To.Angle, divs, i)
 	}
 	return s.Angle - interpolate(s.To.Angle, divs, i)
