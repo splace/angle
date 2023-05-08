@@ -1,6 +1,6 @@
 package angle
 
-// distinguishing type for Angles with a, potentially, problem-space defined zero.
+// distinguishing type for Angles with a, potentially, problem-space defined zero, so accessible.
 type Angle = angle
 
 // an angular region from an Angle up to a To.
