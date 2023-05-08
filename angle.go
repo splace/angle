@@ -12,20 +12,22 @@ import "fmt"
 // maths involving an intermediate step of a small angle, a float can be used to avoid the potential for lost precision. in these cases multiplying the 'float' angle makes sense, since its going to be an angle difference. (angle differences have an actual zero, where Angles don't, cf time and duration)
 // 360 degrees (or 2Pi radians etc.) is the same as 0 (any units) and so is encoded/returned as 0 degrees.(or any other unit).
 // Power of two fractions of a rotation are represented exactly, eg. 64*BinaryDegree==RightAngle, but in general multiplying a unit can result in an in-exact representation, eg. 90*Degree!=RightAngle, (but RightAngle/90==Degree) use the usual approaches to limit rounding errors.
-type Absolute uint32
+
+
+type angle uint32
 
 const (
-	bits             = 32 // allow simple generation of different precision packages
-	Degree  Absolute = 1 << (bits - 2) / 90
-	Minute  Absolute = 1 << (bits - 2) / (90 * 60)
-	Second  Absolute = 1 << (bits - 2) / (90 * 60 * 60)
-	Radian  Absolute = (2935890503282001408) >> (64 - bits) // math.MaxUint64 / (2 * math.Pi )
-	Gradian Absolute = 1 << (bits - 2) / 100
+	bits          = 32 // allow simple generation of different precision packages
+	Degree  angle = 1 << (bits - 2) / 90
+	Minute  angle = 1 << (bits - 2) / (90 * 60)
+	Second  angle = 1 << (bits - 2) / (90 * 60 * 60)
+	Radian  angle = (2935890503282001408) >> (64 - bits) // math.MaxUint64 / (2 * math.Pi )
+	Gradian angle = 1 << (bits - 2) / 100
 
 	// exact representation
-	RightAngle   Absolute = 1 << (bits - 2)
-	Rotation     Absolute = 1<<bits - 1
-	BinaryDegree Absolute = 1 << (bits - 8) // 256 per rotation.  equal to about about 1.42 degrees
+	RightAngle   angle = 1 << (bits - 2)
+	Rotation     angle = 1<<bits - 1
+	BinaryDegree angle = 1 << (bits - 8) // 256 per rotation.  equal to about about 1.42 degrees
 
 	// internal optimisation
 	degreeRecip       = 1.0 / float64(Degree)
@@ -37,7 +39,7 @@ const (
 	binaryDegreeRecip = 1.0 / float64(BinaryDegree)
 )
 
-func (a Absolute) Format(f fmt.State, r rune) {
+func (a angle) Format(f fmt.State, r rune) {
 	var vfn func() float64
 	switch r {
 	case 'r':
@@ -57,9 +59,9 @@ func (a Absolute) Format(f fmt.State, r rune) {
 		vfn = a.Gradians
 	case 'l':
 		fmt.Fprintf(f, "%+.0d", a)
-		a -= Absolute(a.Degrees()) * Degree
+		a -= angle(a.Degrees()) * Degree
 		fmt.Fprintf(f, "%+.0m", a)
-		a -= Absolute(a.Minutes()) * Minute
+		a -= angle(a.Minutes()) * Minute
 		fallthrough
 	case 's':
 		r = '″'
@@ -126,30 +128,30 @@ func (a Absolute) Format(f fmt.State, r rune) {
 	}
 }
 
-func (a Absolute) Degrees() float64 {
+func (a angle) Degrees() float64 {
 	return float64(a) * degreeRecip
 }
 
-func (a Absolute) Radians() float64 {
+func (a angle) Radians() float64 {
 	return float64(a) * radianRecip
 }
 
-func (a Absolute) Minutes() float64 {
+func (a angle) Minutes() float64 {
 	return float64(a) * minuteRecip
 }
 
-func (a Absolute) Seconds() float64 {
+func (a angle) Seconds() float64 {
 	return float64(a) * secondRecip
 }
 
-func (a Absolute) Gradians() float64 {
+func (a angle) Gradians() float64 {
 	return float64(a) * gradianRecip
 }
 
-func (a Absolute) Rotations() float64 {
+func (a angle) Rotations() float64 {
 	return float64(a) * rotationRecip
 }
 
-func (a Absolute) BinaryDegrees() float64 {
+func (a angle) BinaryDegrees() float64 {
 	return float64(a) * binaryDegreeRecip
 }
