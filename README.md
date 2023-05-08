@@ -1,6 +1,6 @@
-# angle
+# Angle
 
-this is an attempt at a general nice-n-clean (hiding the solution-space) way of using angles, or, 'typed' angles.
+this is an attempt at a general nice-n-clean (hiding the solution-space) way of using angles. a 'typed' angle.
 
 could be compared with std. lib. Time/Duration.
 
@@ -42,7 +42,7 @@ Note: constants report an out of range error when used beyond one rotation, repl
 
 # Sweep
 
-encodes an angle difference and so has a direction. (Counter)Clockwise.
+encodes a region of angles, (and an angle difference) and so has a direction. (Counter)Clockwise.
 
 ## [Sweep Iteration Example](https://go.dev/play/p/ZNazzSRqN6o)
 

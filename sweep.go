@@ -1,8 +1,11 @@
 package angle
 
-// angular region from an Angle up to a To.
-type Sweep struct{
-	Angle
+// distinguishes not necessarily absolute angles  
+type Angle = Absolute
+
+// an angular region from an Angle up to a To.
+type Sector struct {
+	Absolute
 	To
 }
 
@@ -15,38 +18,37 @@ const (
 	CCW
 )
 
-// an Angle with the direction required to get to it.
-type To struct{
+// a relative Angle.
+type To struct {
 	Angle
 	Direction
 }
 
-func (s Sweep) Contains(a Angle) bool {
-	if s.Angle+s.To.Angle>s.Angle{
-		return (a>=s.Angle && a<s.To.Angle)==s.To.Direction
+func (s Sector) Contains(a Absolute) bool {
+	if s.Absolute+s.To.Angle > s.Absolute {
+		return (a >= s.Absolute && a < s.To.Angle) == s.To.Direction
 	}
-	return (a>=s.Angle || a<s.To.Angle)==s.To.Direction
+	return (a >= s.Absolute || a < s.To.Angle) == s.To.Direction
 }
 
-func interpolate(a Angle,divs,i uint) Angle{ 
-	return Angle(float64(a)*float64(i)/float64(divs))
+func interpolate(a Absolute, divs, i uint) Absolute {
+	return Absolute(float64(a) * float64(i) / float64(divs))
 }
 
-func (s Sweep) Intermediate(divs,i uint) Angle {
-	if s.To.Direction{
-		return s.Angle+interpolate(s.To.Angle,divs,i)
+func (s Sector) Intermediate(divs, i uint) Absolute {
+	if s.To.Direction {
+		return s.Absolute + interpolate(s.To.Angle, divs, i)
 	}
-	return s.Angle-interpolate(s.To.Angle,divs,i)
+	return s.Absolute - interpolate(s.To.Angle, divs, i)
 }
 
-func Over(s Sweep, steps uint) <-chan Angle{
-	as:=make(chan Angle)
-	go func(){
-		for i:=uint(0);i<=steps;i++{
-			as <- s.Intermediate(steps,i)
+func Over(s Sector, steps uint) <-chan Absolute {
+	as := make(chan Absolute)
+	go func() {
+		for i := uint(0); i <= steps; i++ {
+			as <- s.Intermediate(steps, i)
 		}
 		close(as)
 	}()
-	return (<-chan Angle)(as)
+	return (<-chan Absolute)(as)
 }
-
