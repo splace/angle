@@ -44,6 +44,7 @@ func (s Sector) Intermediate(divs, i uint) angle {
 }
 
 // return a number of angles (one more than steps) evenly dividing a sector
+// Note: usually can just range over angles, this function reduces rounding errors, but is only necessary when the divisions are small compared to the precision of uint32. the divisions are not all the same, can be one out.
 func Over(s Sector, steps uint) <-chan angle {
 	as := make(chan angle)
 	go func() {
