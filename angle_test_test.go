@@ -6,7 +6,7 @@ import . "../angle"  // remove 'go.mod' for local testing.
 
 // range clockwise 20 gradians from 390 gradians, show degree.
 // Notice: 10gradians == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
-func ExampleAngleTestRangeOverSector() {
+func ExampleAngle_testRangeOverSector() {
 	for a := range Over(Sector{Gradian*390, To{Gradian * 20, CW}}, 9) {
 		fmt.Printf("%+.4v ", a)
 	}

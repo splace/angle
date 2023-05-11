@@ -1,6 +1,6 @@
 # Angle
 
-this is an attempt at a general nice-n-clean (hiding the solution-space) way of using angles.
+an attempt at a general nice-n-clean (hiding the solution-space) way of using angles.
 
 a 'typed' angle. potentially a pattern for other simular.
 

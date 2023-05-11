@@ -3,18 +3,13 @@ package angle
 import "strconv"
 import "fmt"
 
-// # Angular stuff encoded as integers.
-// An Angle is a uint32 with its whole range representing a single revolution.
-// so that the modulus behaviour of the uint matches one rotation, you are restricted within one revolution automatically, no range testing.
-// Note: constants report an out of range error when used beyond one rotation, replace with variables or just convert to be within one revolution, its the same.
-// Where a float representation would have a higher precision the closer to the zero value, Angle has fixed precision and also away from zero is more precise than a same sized float.
-// FYI Angles don't make sense when multiplied by other angles for me this means a zero angle is just like any other, a choice and not part of the problem space.
-// maths involving an intermediate step of a small angle, a float can be used to avoid the potential for lost precision. in these cases multiplying the 'float' angle makes sense, since its going to be an angle difference. (angle differences have an actual zero, where Angles don't, cf time and duration)
-// 360 degrees (or 2Pi radians etc.) is the same as 0 (any units) and so is encoded/returned as 0 degrees.(or any other unit).
-// Power of two fractions of a rotation are represented exactly, eg. 64*BinaryDegree==RightAngle, but in general multiplying a unit can result in an in-exact representation, eg. 90*Degree!=RightAngle, (but RightAngle/90==Degree) use the usual approaches to limit rounding errors.
-
 
 type angle uint32
+
+// angle of fractional rotations
+func Rotations(f float64) Angle{
+	return Angle(f*float64(Rotation))
+}
 
 const (
 	bits          = 32 // allow simple generation of different precision packages
