@@ -1,6 +1,7 @@
 package angle
 
 // distinguishing type for Angle's that have, potentially, problem-space defined zero, so can/should be directly accessible.
+// notice: multilying Angle's (by number not other Angle's) is fine but multiplying angle's is not. like a type violation. this is because angle's have a common 'reference' zero not a defined scaling center. like time.
 type Angle = angle
 
 // an angular region from an angle to an offset Angle in either direction.
