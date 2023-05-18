@@ -1,9 +1,11 @@
 package angle
 
-// distinguishing type for Angle's that have, potentially, problem-space defined zero, so can/should be accessible.
+// distinguishing type for Angle's that have, potentially, problem-space defined zero, so can/should be directly accessible.
 type Angle = angle
 
-// an angular region from an Angle to a To.
+// an angular region from an angle to an offset Angle in either direction.
+// notice: Angle (offset) uses From as its zero. so is relative but always positive. small CCW sweeps require a large (1 rotation - offset == -offset) Angle.
+// this allows sweeps of upto 1 rotation in either direction, using a vars sign to indicate direction would only allow upto half a rotation in either direction.
 type Sector struct {
 	From angle
 	Angle
