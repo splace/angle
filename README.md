@@ -49,7 +49,7 @@ encodes a region between two angles, necessererily requiring a direction. (Count
 example: range clockwise 20 gradiens from 390 gradians, show degree.
 Note 10gradians == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
 
-[Sweep Iteration Example](https://go.dev/play/p/H5fRNCTrfnS)
+[Sweep Iteration Example](https://go.dev/play/p/z1yu_jpouCM)
 
 
 

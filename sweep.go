@@ -37,7 +37,7 @@ func (s Sector) Intermediate(divs, i uint) angle {
 	if s.Direction {
 		return s.From + interpolate(s.Angle, divs, i)
 	}
-	return s.From - interpolate(s.Angle, divs, i)
+	return s.From - interpolate(-s.Angle, divs, i)
 }
 
 // return a sequence of Angle's (one more than steps) evenly dividing a sector

@@ -48,17 +48,17 @@ func ExampleSweepDivided() {
 }
 
 func ExampleSweepCCWDivided() {
-	s := Sector{3 * RightAngle, RightAngle, CCW}
+	s := Sector{3 * RightAngle, 3*RightAngle, CCW}
 	fmt.Printf("%+.4t %+.4t %+.4t\n", s.Intermediate(90, 0), s.Intermediate(90, 45), s.Intermediate(90, 90))
-	s = Sector{2 * RightAngle, 3 * RightAngle, CCW}
+	s = Sector{2 * RightAngle, RightAngle, CCW}
 	fmt.Printf("%+.4t %+.4t %+.4t\n", s.Intermediate(90, 0), s.Intermediate(90, 45), s.Intermediate(90, 90))
-	s = Sector{10 * Degree, 20 * Degree, CCW}
+	s = Sector{10 * Degree, 340 * Degree, CCW}
 	fmt.Printf("%+.4d %+.4d %+.4d\n", s.Intermediate(90, 0), s.Intermediate(90, 45), s.Intermediate(90, 90))
-	s = Sector{350 * Degree, 340 * Degree, CCW}
+	s = Sector{350 * Degree, 20 * Degree, CCW}
 	fmt.Printf("%+.4d %+.4d %+.4d\n", s.Intermediate(90, 0), s.Intermediate(90, 45), s.Intermediate(90, 90))
 	// Output:
 	// 0.7500⟳ 0.6250⟳ 0.5000⟳
 	// 0.5000⟳ 0.1250⟳ 0.7500⟳
-	// 10.0000° 0.0000° 350.0000°
+	// 10.0000° 360.0000° 350.0000°
 	// 350.0000° 180.0000° 10.0000°
 }
