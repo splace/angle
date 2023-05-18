@@ -6,10 +6,6 @@ import "fmt"
 
 type angle uint32
 
-// angle of fractional rotations
-func Rotations(f float64) Angle{
-	return Angle(f*float64(Rotation))
-}
 
 const (
 	bits          = 32 // allow simple generation of different precision packages
@@ -21,7 +17,6 @@ const (
 
 	// exact representation
 	RightAngle   angle = 1 << (bits - 2)
-	Rotation     angle = 1<<bits - 1
 	BinaryDegree angle = 1 << (bits - 8) // 256 per rotation.  equal to about about 1.42 degrees
 
 	// internal optimisation
@@ -30,7 +25,6 @@ const (
 	secondRecip       = 1.0 / float64(Second)
 	radianRecip       = 1.0 / float64(Radian)
 	gradianRecip      = 1.0 / float64(Gradian)
-	rotationRecip     = 1.0 / float64(Rotation)
 	binaryDegreeRecip = 1.0 / float64(BinaryDegree)
 )
 
@@ -144,7 +138,12 @@ func (a angle) Gradians() float64 {
 }
 
 func (a angle) Rotations() float64 {
-	return float64(a) * rotationRecip
+	return float64(a) / (1<<bits)
+}
+
+// angle of fractional rotations
+func Rotations(f float64) angle{
+	return angle(f*(1<<bits))
 }
 
 func (a angle) BinaryDegrees() float64 {

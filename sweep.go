@@ -1,8 +1,8 @@
 package angle
 
 // distinguishing type for Angle's that have, potentially, problem-space defined zero, so can/should be directly accessible.
-// notice: multilying Angle's (by number not other Angle's) is fine but multiplying angle's is not. like a type violation. this is because angle's have a common 'reference' zero not a defined scaling center. like time.
-type Angle = angle
+// notice: multiplying Angle's (by a number never another Angle) is fine, but multiplying angle's is not. like a type violation. this is because angle's have a common 'reference' zero not a defined scaling center. they are like time, in that it should be able to change the 'solution space' value that represents zero.
+type Angle angle
 
 // an angular region from an angle to an offset Angle in either direction.
 // notice: Angle (offset) uses From as its zero. so is relative but always positive. small CCW sweeps require a large (1 rotation - offset == -offset) Angle.
@@ -11,6 +11,14 @@ type Sector struct {
 	From angle
 	Angle
 	Direction
+}
+
+func NewCWSector(s,d angle)Sector{
+	return Sector{s,Angle(d),CW}
+}
+
+func NewCCWSector(s,d angle)Sector{
+	return Sector{s,Angle(d),CCW}
 }
 
 type Direction bool
@@ -24,11 +32,11 @@ const (
 
 
 func (s Sector) Contains(a angle) bool {
-	if s.From+s.Angle > s.From {
-		return (a >= s.From && a < s.Angle) == s.Direction
+	if s.From+angle(s.Angle) > s.From {
+		return (a >= s.From && a < angle(s.Angle)) == s.Direction
 	}
 	// sector crosses zero.
-	return (a >= s.From || a < s.Angle) == s.Direction
+	return (a >= s.From || a < angle(s.Angle)) == s.Direction
 }
 
 func interpolate(a angle, divs, i uint) angle {
@@ -38,9 +46,9 @@ func interpolate(a angle, divs, i uint) angle {
 // return the angle for the indexed division
 func (s Sector) Intermediate(divs, i uint) angle {
 	if s.Direction {
-		return s.From + interpolate(s.Angle, divs, i)
+		return s.From + interpolate(angle(s.Angle), divs, i)
 	}
-	return s.From - interpolate(-s.Angle, divs, i)
+	return s.From - interpolate(-angle(s.Angle), divs, i)
 }
 
 // return a sequence of Angle's (one more than steps) evenly dividing a sector
