@@ -3,19 +3,19 @@ package angle
 import "fmt"
 
 func ExampleSweepContains() {
-	fmt.Println(Sector{RightAngle, To{3 * RightAngle, CW}}.Contains(RightAngle))
-	fmt.Println(Sector{3 * RightAngle, To{2 * RightAngle, CW}}.Contains(0))
-	fmt.Println(Sector{3 * RightAngle, To{2 * RightAngle, CW}}.Contains(RightAngle))
-	fmt.Println(Sector{0, To{2 * RightAngle, CW}}.Contains(3 * RightAngle))
-	fmt.Println(Sector{2 * RightAngle, To{0, CW}}.Contains(RightAngle))
-	fmt.Println(Sector{3 * RightAngle, To{RightAngle, CW}}.Contains(0))
+	fmt.Println(Sector{RightAngle, 3 * RightAngle, CW}.Contains(RightAngle))
+	fmt.Println(Sector{3 * RightAngle, 2 * RightAngle, CW}.Contains(0))
+	fmt.Println(Sector{3 * RightAngle, 2 * RightAngle, CW}.Contains(RightAngle))
+	fmt.Println(Sector{0, 2 * RightAngle, CW}.Contains(3 * RightAngle))
+	fmt.Println(Sector{2 * RightAngle, 0, CW}.Contains(RightAngle))
+	fmt.Println(Sector{3 * RightAngle, RightAngle, CW}.Contains(0))
 
-	fmt.Println(Sector{RightAngle, To{3 * RightAngle, CCW}}.Contains(2 * RightAngle))
-	fmt.Println(Sector{3 * RightAngle, To{2 * RightAngle, CCW}}.Contains(0))
-	fmt.Println(Sector{3 * RightAngle, To{2 * RightAngle, CCW}}.Contains(RightAngle))
-	fmt.Println(Sector{0, To{2 * RightAngle, CCW}}.Contains(3 * RightAngle))
-	fmt.Println(Sector{2 * RightAngle, To{0, CCW}}.Contains(RightAngle))
-	fmt.Println(Sector{3 * RightAngle, To{RightAngle, CCW}}.Contains(0))
+	fmt.Println(Sector{RightAngle, 3 * RightAngle, CCW}.Contains(2 * RightAngle))
+	fmt.Println(Sector{3 * RightAngle, 2 * RightAngle, CCW}.Contains(0))
+	fmt.Println(Sector{3 * RightAngle, 2 * RightAngle, CCW}.Contains(RightAngle))
+	fmt.Println(Sector{0, 2 * RightAngle, CCW}.Contains(3 * RightAngle))
+	fmt.Println(Sector{2 * RightAngle, 0, CCW}.Contains(RightAngle))
+	fmt.Println(Sector{3 * RightAngle, RightAngle, CCW}.Contains(0))
 	// Output:
 	// true
 	// true
@@ -32,13 +32,13 @@ func ExampleSweepContains() {
 }
 
 func ExampleSweepDivided() {
-	s := Sector{RightAngle, To{RightAngle, CW}}
+	s := Sector{RightAngle, RightAngle, CW}
 	fmt.Printf("%+.4t %+.4t %+.4t\n", s.Intermediate(90, 0), s.Intermediate(90, 45), s.Intermediate(90, 90))
-	s = Sector{3 * RightAngle, To{3 * RightAngle, CW}}
+	s = Sector{3 * RightAngle, 3 * RightAngle, CW}
 	fmt.Printf("%+.4t %+.4t %+.4t\n", s.Intermediate(90, 0), s.Intermediate(90, 45), s.Intermediate(90, 90))
-	s = Sector{10 * Degree, To{340 * Degree, CW}}
+	s = Sector{10 * Degree, 340 * Degree, CW}
 	fmt.Printf("%+.4d %+.4d %+.4d\n", s.Intermediate(90, 0), s.Intermediate(90, 45), s.Intermediate(90, 90))
-	s = Sector{350 * Degree, To{20 * Degree, CW}}
+	s = Sector{350 * Degree, 20 * Degree, CW}
 	fmt.Printf("%+.4d %+.4d %+.4d\n", s.Intermediate(90, 0), s.Intermediate(90, 45), s.Intermediate(90, 90))
 	// Output:
 	// 0.2500⟳ 0.3750⟳ 0.5000⟳
@@ -48,13 +48,13 @@ func ExampleSweepDivided() {
 }
 
 func ExampleSweepCCWDivided() {
-	s := Sector{3 * RightAngle, To{RightAngle, CCW}}
+	s := Sector{3 * RightAngle, RightAngle, CCW}
 	fmt.Printf("%+.4t %+.4t %+.4t\n", s.Intermediate(90, 0), s.Intermediate(90, 45), s.Intermediate(90, 90))
-	s = Sector{2 * RightAngle, To{3 * RightAngle, CCW}}
+	s = Sector{2 * RightAngle, 3 * RightAngle, CCW}
 	fmt.Printf("%+.4t %+.4t %+.4t\n", s.Intermediate(90, 0), s.Intermediate(90, 45), s.Intermediate(90, 90))
-	s = Sector{10 * Degree, To{20 * Degree, CCW}}
+	s = Sector{10 * Degree, 20 * Degree, CCW}
 	fmt.Printf("%+.4d %+.4d %+.4d\n", s.Intermediate(90, 0), s.Intermediate(90, 45), s.Intermediate(90, 90))
-	s = Sector{350 * Degree, To{340 * Degree, CCW}}
+	s = Sector{350 * Degree, 340 * Degree, CCW}
 	fmt.Printf("%+.4d %+.4d %+.4d\n", s.Intermediate(90, 0), s.Intermediate(90, 45), s.Intermediate(90, 90))
 	// Output:
 	// 0.7500⟳ 0.6250⟳ 0.5000⟳

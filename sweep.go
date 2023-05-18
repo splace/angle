@@ -1,12 +1,13 @@
 package angle
 
-// distinguishing type for Angle's that have, potentially, problem-space defined zero, so accessible.
+// distinguishing type for Angle's that have, potentially, problem-space defined zero, so can/should be accessible.
 type Angle = angle
 
 // an angular region from an Angle to a To.
 type Sector struct {
+	From angle
 	Angle
-	To
+	Direction
 }
 
 type Direction bool
@@ -18,32 +19,29 @@ const (
 	CCW
 )
 
-// an angle and the direction taken to get to it.
-type To struct {
-	Angle
-	Direction
-}
 
 func (s Sector) Contains(a angle) bool {
-	if s.Angle+s.To.Angle > s.Angle {
-		return (a >= s.Angle && a < s.To.Angle) == s.Direction
+	if s.From+s.Angle > s.From {
+		return (a >= s.From && a < s.Angle) == s.Direction
 	}
-	return (a >= s.Angle || a < s.To.Angle) == s.Direction
+	// sector crosses zero.
+	return (a >= s.From || a < s.Angle) == s.Direction
 }
 
 func interpolate(a angle, divs, i uint) angle {
 	return angle(float64(a) * float64(i) / float64(divs))
 }
 
-// return an angle a number of even divisions along a sector
+// return the angle for the indexed division
 func (s Sector) Intermediate(divs, i uint) angle {
 	if s.Direction {
-		return s.Angle + interpolate(s.To.Angle, divs, i)
+		return s.From + interpolate(s.Angle, divs, i)
 	}
-	return s.Angle - interpolate(s.To.Angle, divs, i)
+	return s.From - interpolate(s.Angle, divs, i)
 }
 
-// return a number of angles (one more than steps) evenly dividing a sector
+// return a sequence of Angle's (one more than steps) evenly dividing a sector
+// Note: usually can simply range using a fixed Angle step, this function reduces rounding errors when the divisions are very small. 
 func Over(s Sector, steps uint) <-chan angle {
 	as := make(chan angle)
 	go func() {
