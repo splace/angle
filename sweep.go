@@ -12,8 +12,9 @@ type Angle struct{
 
 type Delta = Angle
 
-// Sector is an angular region From an angle of a Width Angle, in either direction.
-// notice: Width Angle is always positive. small CCW sweeps are stored as a large Angle. (because of the modular behaviour this large Angle is simply -Angle))
+// Sector is an angular region From an angle and of a Delta (Angle), in either direction.
+// notice: Delta is Clockwise. that means to get a small CCW delta, this is set to 1 rotation minus the required sweep angle. (due to modulus; simply -angle) 
+// this is baked into the NewCCWSector() where the sweep angle parameter is then in the direction indicated by the constructor. 
 // this allows sweeps of upto 1 rotation in either direction, using a signed var to indicate direction would only allow upto half a rotation in either direction.
 type Sector struct {
 	angle
@@ -34,7 +35,7 @@ type Direction bool
 const (
 	Clockwise Direction = true
 	CW
-	ClounterClockwise = false
+	CounterClockwise = false
 	CCW
 )
 
@@ -47,25 +48,41 @@ func (s Sector) Contains(a angle) bool {
 	return (a >= s.angle || a <= s.Delta.angle) == s.Direction
 }
 
-func interpolate(a angle, divs, i uint) angle {
-	return angle(float64(a) * float64(i) / float64(divs))
-}
-
-// return the angle for the indexed division
-func (s Sector) Intermediate(divs, i uint) angle {
-	if s.Direction {
-		return s.angle + interpolate(s.Delta.angle, divs, i)
-	}
-	return s.angle - interpolate(-s.Delta.angle, divs, i)
-}
 
 // return a sequence of Angle's (one more than steps) evenly dividing a sector
-// Note: usually can simply range using a fixed Angle step, this function reduces rounding errors when the divisions are very small. 
+// Note: usually can simply range using a fixed Angle step, this function reduces rounding errors when the divisions are very small.
+// Direction species which way to sequence over the sector.
 func Over(s Sector, steps uint) <-chan angle {
 	as := make(chan angle)
 	go func() {
-		for i := uint(0); i <= steps; i++ {
-			as <- s.Intermediate(steps, i)
+		if s.Direction == CounterClockwise {
+			for i := uint(0); i <= steps; i++ {
+				as <- s.angle - angle(float64(-s.Delta.angle) * float64(i) / float64(steps))
+			}
+		}else{
+			for i := uint(0); i <= steps; i++ {
+				as <- s.angle + angle(float64(s.Delta.angle) * float64(i) / float64(steps))
+			}
+		}
+		close(as)
+	}()
+	return (<-chan angle)(as)
+}
+
+func ReverseOver(s Sector, steps uint) <-chan angle {
+	as := make(chan angle)
+	go func() {
+		if s.Direction == CounterClockwise {
+			for i := steps; ; i-- {
+				as <- s.angle - angle(float64(-s.Delta.angle) * float64(i) / float64(steps))
+				if i==0 {break}
+			}
+			
+		}else{
+			for i := steps;; i-- {
+				as <- s.angle + angle(float64(s.Delta.angle) * float64(i) / float64(steps))
+				if i==0 {break}
+			}
 		}
 		close(as)
 	}()
