@@ -17,7 +17,7 @@ func ExampleAngle_testRangeOverSector() {
 }
 
 func ExampleAngle_testRangeOverSectorCCW() {
-	for a := range Over(NewCCWSector(Gradian*10, Gradian * 380), 9) {
+	for a := range Over(NewCCWSector(Gradian*10, Gradian * 20), 9) {
 		fmt.Printf("%+.3v ", a)
 	}
 	fmt.Println()

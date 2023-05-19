@@ -22,7 +22,7 @@ func NewCWSector(s,d angle)Sector{
 }
 
 func NewCCWSector(s,d angle)Sector{
-	return Sector{s,Angle(d),CCW}
+	return Sector{s,Angle(-d),CCW}
 }
 
 type Direction bool
@@ -37,10 +37,10 @@ const (
 
 func (s Sector) Contains(a angle) bool {
 	if s.From+angle(s.Width) > s.From {
-		return (a >= s.From && a < angle(s.Width)) == s.Direction
+		return (a >= s.From && a <= angle(s.Width)) == s.Direction
 	}
 	// sector crosses zero.
-	return (a >= s.From || a < angle(s.Width)) == s.Direction
+	return (a >= s.From || a <= angle(s.Width)) == s.Direction
 }
 
 func interpolate(a angle, divs, i uint) angle {
