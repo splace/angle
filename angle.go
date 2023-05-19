@@ -3,9 +3,7 @@ package angle
 import "strconv"
 import "fmt"
 
-
 type angle uint32
-
 
 const (
 	bits          = 32 // allow simple generation of different precision packages
@@ -137,6 +135,11 @@ func (a angle) Gradians() float64 {
 	return float64(a) * gradianRecip
 }
 
+
+func (a angle) BinaryDegrees() float64 {
+	return float64(a) * binaryDegreeRecip
+}
+
 func (a angle) Rotations() float64 {
 	return float64(a) / (1<<bits)
 }
@@ -146,6 +149,3 @@ func Rotations(f float64) angle{
 	return angle(f*(1<<bits))
 }
 
-func (a angle) BinaryDegrees() float64 {
-	return float64(a) * binaryDegreeRecip
-}

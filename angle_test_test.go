@@ -4,7 +4,30 @@ package angle_test
 import "fmt"
 import . "../angle"  // remove 'go.mod' for local testing.
 
-// range clockwise 20 gradians from 390 gradians, show values in degrees.
+
+func ExampleAngle_testSweepContains() {
+	fmt.Println(
+		NewCWSector(RightAngle, 3 * RightAngle).Contains(RightAngle),
+		NewCWSector(3 * RightAngle, 2 * RightAngle).Contains(0),
+		NewCWSector(3 * RightAngle, 2 * RightAngle).Contains(RightAngle),
+		NewCWSector(0, 2 * RightAngle).Contains(3 * RightAngle),
+		NewCWSector(2 * RightAngle, 0).Contains(RightAngle),
+		NewCWSector(3 * RightAngle, RightAngle).Contains(0),
+	)
+	fmt.Println(
+		NewCCWSector(RightAngle, 3 * RightAngle).Contains(2 * RightAngle),
+		NewCCWSector(3 * RightAngle, 2 * RightAngle).Contains(0),
+		NewCCWSector(3 * RightAngle, 2 * RightAngle).Contains(2*RightAngle),
+		NewCCWSector(0, 2 * RightAngle).Contains(3 * RightAngle),
+		NewCCWSector(2 * RightAngle, 0).Contains(RightAngle),
+		NewCCWSector(3 * RightAngle, RightAngle).Contains(0),
+	)
+	// Output:
+	// true true true false false true
+	// true false false true true false
+}
+
+// range clockwise 20 gradians from 390 gradians in 9 steps, show values in degrees.
 // Notice: 10gradians == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
 func ExampleAngle_testRangeOverSector() {
 	for a := range Over(NewCWSector(Gradian*390, Gradian * 20), 9) {
