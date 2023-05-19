@@ -2,6 +2,14 @@ package angle
 
 import "fmt"
 
+func ExampleSweepAngle() {
+	fmt.Printf("%.1v degrees == %+[1]r == %+[1]v == %+.0[1]m == %+.2[1]l\n", Angle{Radian})
+	fmt.Printf("%.1v degrees == %+[1]㎭ == %+.1[1]l == %+.0[1]s == %+.1[1]g\n", Angle{RightAngle})
+	// Output:
+	// 57.3 degrees == 1㎭ == 57.295784° == 3438′ == 57°18′44.82″
+	// 90.0 degrees == 1.5707964㎭ == 90°0′0.0″ == 324002″ == 100.0ᵍ
+}
+
 func ExampleSweepContains() {
 	fmt.Println(NewCWSector(RightAngle, 3 * RightAngle).Contains(RightAngle))
 	fmt.Println(NewCWSector(3 * RightAngle, 2 * RightAngle).Contains(0))
