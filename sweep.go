@@ -7,21 +7,17 @@ package angle
 // Angle's (like duration) have a problem-space and a scaling center zero that are the same as the solution-space zero and so can be multipled.
 // Example Sector: doubling the From (angle) makes no sense in the problem-space, but doubling the Width (Angle) clearly represents twice the sector size. 
 type Angle struct{
-	angle
+	Angle angle
 }
 
 type Delta Angle
-
-func NewDelta(a angle) Delta{
-	return Delta{a}
-}
 
 // Sector is an angular region From an angle and of a Delta (Angle), in either direction.
 // notice: Delta is Clockwise. that means to get a small CCW delta, this is set to 1 rotation minus the required sweep angle. (due to modulus; simply -angle) 
 // this is baked into the NewCCWSector() where the sweep angle parameter is then in the direction indicated by the constructor. 
 // this allows sweeps of upto 1 rotation in either direction, using a signed var to indicate direction would only allow upto half a rotation in either direction.
 type Sector struct {
-	angle
+	From angle
 	Delta
 	Direction
 }
@@ -45,11 +41,11 @@ const (
 
 
 func (s Sector) Contains(a angle) bool {
-	if s.angle+s.Delta.angle > s.angle {
-		return (a >= s.angle && a <=s.Delta.angle) == s.Direction
+	if s.From+s.Delta.Angle > s.From {
+		return (a >= s.From && a <=s.Delta.Angle) == s.Direction
 	}
 	// sector crosses zero.
-	return (a >= s.angle || a <= s.Delta.angle) == s.Direction
+	return (a >= s.From || a <= s.Delta.Angle) == s.Direction
 }
 
 
@@ -61,11 +57,11 @@ func Over(s Sector, steps uint) <-chan angle {
 	go func() {
 		if s.Direction == CounterClockwise {
 			for i := uint(0); i <= steps; i++ {
-				as <- s.angle - angle(float64(-s.Delta.angle) * float64(i) / float64(steps))
+				as <- s.From - angle(float64(-s.Delta.Angle) * float64(i) / float64(steps))
 			}
 		}else{
 			for i := uint(0); i <= steps; i++ {
-				as <- s.angle + angle(float64(s.Delta.angle) * float64(i) / float64(steps))
+				as <- s.From + angle(float64(s.Delta.Angle) * float64(i) / float64(steps))
 			}
 		}
 		close(as)
@@ -78,13 +74,13 @@ func ReverseOver(s Sector, steps uint) <-chan angle {
 	go func() {
 		if s.Direction == CounterClockwise {
 			for i := steps; ; i-- {
-				as <- s.angle - angle(float64(-s.Delta.angle) * float64(i) / float64(steps))
+				as <- s.From - angle(float64(-s.Delta.Angle) * float64(i) / float64(steps))
 				if i==0 {break}
 			}
 			
 		}else{
 			for i := steps;; i-- {
-				as <- s.angle + angle(float64(s.Delta.angle) * float64(i) / float64(steps))
+				as <- s.From + angle(float64(s.Delta.Angle) * float64(i) / float64(steps))
 				if i==0 {break}
 			}
 		}

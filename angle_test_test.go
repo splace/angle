@@ -39,8 +39,8 @@ func ExampleAngle_testRangeOverSector() {
 
 }
 
-func ExampleAngle_testRangeOverSectorVarious() {
-	s:=NewCCWSector(Gradian*10, Gradian * 20)
+func ExampleAngle_testRangeOverSectorVarious2() {
+	s:=Sector{Gradian*10, Delta{Gradian * 380},CCW}
 	for a := range Over(s, 9) {
 		fmt.Printf("%+.3v,", a)
 	}
@@ -66,5 +66,6 @@ func ExampleAngle_testRangeOverSectorVarious() {
 	// 9.000°,47.000°,85.000°,123.000°,161.000°,199.000°,237.000°,275.000°,313.000°,351.000°,
 	// 351.000°,313.000°,275.000°,237.000°,199.000°,161.000°,123.000°,85.000°,47.000°,9.000°,
 }
+
 
 
