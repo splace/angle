@@ -1,5 +1,7 @@
 package angle
 
+import "fmt"
+
 // Angle exposes an angle type for problem-space angles.
 // this is akin to time/duration (Angles commonly will be angle differences.)
 // multiplying a duration is fine, but multiplying time is not the best type safety. hence here, unlike time/duration, angle is package-local.
@@ -10,10 +12,16 @@ type Angle struct{
 	Angle angle
 }
 
-type Delta Angle
+func (a Angle) Format(f fmt.State, r rune) {
+	f.Write([]byte(string('|')))
+	a.Angle.Format(f,r)
+	f.Write([]byte(string('|')))
+}
+
+type Delta = Angle
 
 // Sector is an angular region From an angle and of a Delta (Angle), in either direction.
-// notice: Delta is Clockwise. that means to get a small CCW delta, this is set to 1 rotation minus the required sweep angle. 
+// notice: Delta is Clockwise. that means for CCW this is set to 1 rotation minus the required sweep angle. 
 // this allows sweeps of upto 1 rotation in either direction, using a signed var to indicate direction would only allow upto half a rotation in either direction.
 type Sector struct {
 	From angle
