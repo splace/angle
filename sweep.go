@@ -1,28 +1,32 @@
 package angle
 
+import "fmt"
+
 // Angle exposes an angle type for problem-space angles.
 // this is akin to time/duration (Angles commonly will be angle differences.)
 // multiplying a duration is fine, but multiplying time is not the best type safety. hence here, unlike time/duration, angle is package-local.
 // angle's (like time) have a common 'reference' zero but not a defined scaling center. making it possible to change the 'solution space' value that represents zero.
 // Angle's (like duration) have a problem-space and a scaling center zero that are the same as the solution-space zero and so can be multipled.
 // Example Sector: doubling the From (angle) makes no sense in the problem-space, but doubling the Width (Angle) clearly represents twice the sector size. 
-type Angle angle
+type Angle struct{
+	Angle angle
+}
 
-// Sector is an angular region From an angle of a Width Angle, in either direction.
-// notice: Width Angle is always positive. small CCW sweeps are stored as a large Angle. (because of the modular behaviour this large Angle is simply -Angle))
+func (a Angle) Format(f fmt.State, r rune) {
+	f.Write([]byte(string('|')))
+	a.Angle.Format(f,r)
+	f.Write([]byte(string('|')))
+}
+
+type Delta = Angle
+
+// Sector is an angular region From an angle and of a Delta (Angle), in either direction.
+// notice: Delta is Clockwise. that means for CCW this is set to 1 rotation minus the required sweep angle. 
 // this allows sweeps of upto 1 rotation in either direction, using a signed var to indicate direction would only allow upto half a rotation in either direction.
 type Sector struct {
 	From angle
-	Width Angle
+	Delta
 	Direction
-}
-
-func NewCWSector(s,d angle)Sector{
-	return Sector{s,Angle(d),CW}
-}
-
-func NewCCWSector(s,d angle)Sector{
-	return Sector{s,Angle(-d),CCW}
 }
 
 type Direction bool
@@ -30,38 +34,54 @@ type Direction bool
 const (
 	Clockwise Direction = true
 	CW
-	ClounterClockwise = false
+	CounterClockwise = false
 	CCW
 )
 
 
 func (s Sector) Contains(a angle) bool {
-	if s.From+angle(s.Width) > s.From {
-		return (a >= s.From && a <= angle(s.Width)) == s.Direction
+	if s.From+s.Delta.Angle > s.From {
+		return (a >= s.From && a <=s.Delta.Angle) == s.Direction
 	}
 	// sector crosses zero.
-	return (a >= s.From || a <= angle(s.Width)) == s.Direction
+	return (a >= s.From || a <= s.Delta.Angle) == s.Direction
 }
 
-func interpolate(a angle, divs, i uint) angle {
-	return angle(float64(a) * float64(i) / float64(divs))
-}
-
-// return the angle for the indexed division
-func (s Sector) Intermediate(divs, i uint) angle {
-	if s.Direction {
-		return s.From + interpolate(angle(s.Width), divs, i)
-	}
-	return s.From - interpolate(-angle(s.Width), divs, i)
-}
 
 // return a sequence of Angle's (one more than steps) evenly dividing a sector
-// Note: usually can simply range using a fixed Angle step, this function reduces rounding errors when the divisions are very small. 
+// Note: usually can simply range using a fixed Angle step, this function reduces rounding errors when the divisions are very small.
+// Direction species which way to sequence over the sector.
 func Over(s Sector, steps uint) <-chan angle {
 	as := make(chan angle)
 	go func() {
-		for i := uint(0); i <= steps; i++ {
-			as <- s.Intermediate(steps, i)
+		if s.Direction == CounterClockwise {
+			for i := uint(0); i <= steps; i++ {
+				as <- s.From - angle(float64(-s.Delta.Angle) * float64(i) / float64(steps))
+			}
+		}else{
+			for i := uint(0); i <= steps; i++ {
+				as <- s.From + angle(float64(s.Delta.Angle) * float64(i) / float64(steps))
+			}
+		}
+		close(as)
+	}()
+	return (<-chan angle)(as)
+}
+
+func ReverseOver(s Sector, steps uint) <-chan angle {
+	as := make(chan angle)
+	go func() {
+		if s.Direction == CounterClockwise {
+			for i := steps; ; i-- {
+				as <- s.From - angle(float64(-s.Delta.Angle) * float64(i) / float64(steps))
+				if i==0 {break}
+			}
+			
+		}else{
+			for i := steps;; i-- {
+				as <- s.From + angle(float64(s.Delta.Angle) * float64(i) / float64(steps))
+				if i==0 {break}
+			}
 		}
 		close(as)
 	}()
