@@ -13,21 +13,12 @@ type Angle struct{
 type Delta Angle
 
 // Sector is an angular region From an angle and of a Delta (Angle), in either direction.
-// notice: Delta is Clockwise. that means to get a small CCW delta, this is set to 1 rotation minus the required sweep angle. (due to modulus; simply -angle) 
-// this is baked into the NewCCWSector() where the sweep angle parameter is then in the direction indicated by the constructor. 
+// notice: Delta is Clockwise. that means to get a small CCW delta, this is set to 1 rotation minus the required sweep angle. 
 // this allows sweeps of upto 1 rotation in either direction, using a signed var to indicate direction would only allow upto half a rotation in either direction.
 type Sector struct {
 	From angle
 	Delta
 	Direction
-}
-
-func NewCWSector(s,d angle)Sector{
-	return Sector{s,Delta{d},CW}
-}
-
-func NewCCWSector(s,d angle)Sector{
-	return Sector{s,Delta{-d},CCW}
 }
 
 type Direction bool
