@@ -40,17 +40,16 @@ func ExampleAngle_testSweepContains() {
 // range clockwise 20 gradians from 390 gradians in 9 steps, show values in degrees.
 // Notice: 10gradians == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
 func ExampleAngle_testRangeOverSector() {
-	for a := range Over(Sector{Gradian*390, Delta{Gradian * 20},CW}, 9) {
+	for a := range Over(NewSector(Gradian*390, Gradian * 20,CW), 9) {
 		fmt.Printf("%+.3v ", a)
 	}
 	fmt.Println()
 	// Output:
 	// 351.000° 353.000° 355.000° 357.000° 359.000° 1.000° 3.000° 5.000° 7.000° 9.000° 
-
 }
 
 func ExampleAngle_testRangeOverSectorVarious2() {
-	s:=Sector{Gradian*10, Delta{Gradian * 380},CCW}
+	s:=NewSector(Gradian*10, Gradian * 20,CCW)
 	for a := range Over(s, 9) {
 		fmt.Printf("%+.3v,", a)
 	}
