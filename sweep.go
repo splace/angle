@@ -29,6 +29,13 @@ type Sector struct {
 	Direction
 }
 
+func NewSector(f,a angle,d Direction) Sector{
+	if d==CCW {
+		a=-a
+	}
+	return Sector{f,Delta{a},d}
+}
+
 type Direction bool
 
 const (
@@ -50,7 +57,6 @@ func (s Sector) Contains(a angle) bool {
 
 // return a sequence of Angle's (one more than steps) evenly dividing a sector
 // Note: usually can simply range using a fixed Angle step, this function reduces rounding errors when the divisions are very small.
-// Direction species which way to sequence over the sector.
 func Over(s Sector, steps uint) <-chan angle {
 	as := make(chan angle)
 	go func() {
