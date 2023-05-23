@@ -1,27 +1,34 @@
 package angle
 
 import "fmt"
+import "strconv"
 
 // Angle exposes an angle type for problem-space angles.
-// this is akin to time/duration (Angles commonly will be angle differences.)
-// multiplying a duration is fine, but multiplying time is not the best type safety. hence here, unlike time/duration, angle is package-local.
-// angle's (like time) have a common 'reference' zero but not a defined scaling center. making it possible to change the 'solution space' value that represents zero.
-// Angle's (like duration) have a problem-space and a scaling center zero that are the same as the solution-space zero and so can be multipled.
-// Example Sector: doubling the From (angle) makes no sense in the problem-space, but doubling the Width (Angle) clearly represents twice the sector size. 
+// angle/Angle is akin to Time/Duration (Angle commonly will be angle differences.)
+// multiplying a Duration is fine, but multiplying Time is not the best type safety. hence here, unlike Time/Duration, the base type, angle, is package-local.
+// angle's (like Time) have a common 'reference' zero but not a defined scaling center. making it possible to change the 'solution space' value that represents zero.
+// Angle's (like Duration) have a problem-space and a scaling center zero that are the same as the solution-space zero and so can be multipled.
+// Example Sector: doubling the From (angle) makes no sense in the problem-space, but doubling the Delta (=Angle) clearly represents twice the sector size. 
 type Angle struct{
 	Angle angle
 }
 
 func (a Angle) Format(f fmt.State, r rune) {
-	f.Write([]byte(string('|')))
-	a.Angle.Format(f,r)
-	f.Write([]byte(string('|')))
+	sfn,u:=scalerAndUnit(r)
+	if p, set := f.Precision(); set {
+		f.Write([]byte(strconv.FormatFloat(sfn(a.Angle), 'f', p, bits)))
+	} else {
+		f.Write([]byte(strconv.FormatFloat(sfn(a.Angle), 'f', -1, bits)))
+	}
+	if f.Flag('+') {
+		fmt.Fprint(f, u)
+	}
 }
 
 type Delta = Angle
 
 // Sector is an angular region From an angle and of a Delta (Angle), in either direction.
-// notice: Delta is Clockwise. that means for CCW this is set to 1 rotation minus the required sweep angle. 
+// notice: Delta is Clockwise. that means for CCW this is set to 1 rotation minus the required sweep angle (simply -angle). see NewSector()
 // this allows sweeps of upto 1 rotation in either direction, using a signed var to indicate direction would only allow upto half a rotation in either direction.
 type Sector struct {
 	From angle
@@ -60,13 +67,14 @@ func (s Sector) Contains(a angle) bool {
 func Over(s Sector, steps uint) <-chan angle {
 	as := make(chan angle)
 	go func() {
+		div:=1.0 / float64(steps)
 		if s.Direction == CounterClockwise {
 			for i := uint(0); i <= steps; i++ {
-				as <- s.From - angle(float64(-s.Delta.Angle) * float64(i) / float64(steps))
+				as <- s.From - angle(float64(-s.Delta.Angle) * float64(i) *div)
 			}
 		}else{
 			for i := uint(0); i <= steps; i++ {
-				as <- s.From + angle(float64(s.Delta.Angle) * float64(i) / float64(steps))
+				as <- s.From + angle(float64(s.Delta.Angle) * float64(i) * div)
 			}
 		}
 		close(as)
@@ -74,19 +82,22 @@ func Over(s Sector, steps uint) <-chan angle {
 	return (<-chan angle)(as)
 }
 
-func ReverseOver(s Sector, steps uint) <-chan angle {
+var CWOver = Over
+
+func CCWOver(s Sector, steps uint) <-chan angle {
 	as := make(chan angle)
 	go func() {
+		div:=1.0 / float64(steps)
 		if s.Direction == CounterClockwise {
-			for i := steps; ; i-- {
-				as <- s.From - angle(float64(-s.Delta.Angle) * float64(i) / float64(steps))
-				if i==0 {break}
+			for  ;; steps-- {
+				as <- s.From - angle(float64(-s.Delta.Angle) * float64(steps) * div)
+				if steps==0 {break}
 			}
 			
 		}else{
-			for i := steps;; i-- {
-				as <- s.From + angle(float64(s.Delta.Angle) * float64(i) / float64(steps))
-				if i==0 {break}
+			for ;;steps-- {
+				as <- s.From + angle(float64(s.Delta.Angle) * float64(steps) * div)
+				if steps==0 {break}
 			}
 		}
 		close(as)
