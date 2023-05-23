@@ -95,6 +95,9 @@ func (a angle) Format(f fmt.State, r rune) {
 	case 't':
 		vfn = a.Rotations
 		r = '⟳'
+	case 'f':
+		vfn = func()float64{return a.Rotations()*100}
+		r = '%'
 	case 'b':
 		vfn = a.BinaryDegrees
 	case 'd', 'v':

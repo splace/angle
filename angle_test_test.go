@@ -55,7 +55,7 @@ func ExampleAngle_testRangeOverSectorVarious2() {
 	}
 	fmt.Println()
 	// reverse
-	for a := range ReverseOver(s, 9) {
+	for a := range CCWOver(s, 9) {
 		fmt.Printf("%+.3v,", a)
 	}
 	fmt.Println()
@@ -66,7 +66,7 @@ func ExampleAngle_testRangeOverSectorVarious2() {
 	}
 	fmt.Println()
 	// the other half of a rotation in reverse
-	for a := range ReverseOver(s, 9) {
+	for a := range CCWOver(s, 9) {
 		fmt.Printf("%+.3v,", a)
 	}
 	// Output:
