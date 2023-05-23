@@ -1,6 +1,7 @@
 package angle
 
 import "fmt"
+import "strconv"
 
 // Angle exposes an angle type for problem-space angles.
 // angle/Angle is akin to Time/Duration (Angle commonly will be angle differences.)
@@ -13,13 +14,15 @@ type Angle struct{
 }
 
 func (a Angle) Format(f fmt.State, r rune) {
-	f.Write([]byte(string('|')))
-	// 'c' couse is absolute not for Angle.
-	if r=='c' {
-		r='v'
+	sfn,u:=scalerAndUnit(r)
+	if p, set := f.Precision(); set {
+		f.Write([]byte(strconv.FormatFloat(sfn(a.Angle), 'f', p, bits)))
+	} else {
+		f.Write([]byte(strconv.FormatFloat(sfn(a.Angle), 'f', -1, bits)))
 	}
-	a.Angle.Format(f,r)
-	f.Write([]byte(string('|')))
+	if f.Flag('+') {
+		fmt.Fprint(f, u)
+	}
 }
 
 type Delta = Angle

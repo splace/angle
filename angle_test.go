@@ -4,11 +4,11 @@ import "fmt"
 import "testing"
 
 func ExampleAngle() {
-	fmt.Printf("%.1v degrees == %+[1]r == %+[1]v == %+.0[1]m == %+.2[1]l\n", Radian)
-	fmt.Printf("%.1v degrees == %+[1]㎭ == %+.1[1]l == %+.0[1]s == %+.1[1]g == %+.1[1]f\n", RightAngle)
+	fmt.Printf("%.1v degrees == %+[1]r == %+[1]v == %+.0[1]l == %+.2[1]f\n", Radian)
+	fmt.Printf("%.1v degrees == %+[1]㎭ == %+.0[1]l == %+.1[1]g == %+.2[1]f\n", RightAngle)
 	// Output:
-	// 57.3 degrees == 1㎭ == 57.295784° == 3438′ == 57°18′44.82″
-	// 90.0 degrees == 1.5707964㎭ == 90°0′0.0″ == 324002″ == 100.0ᵍ
+	// 57.3 degrees == 1㎭ == 57.295784° == 57°18′45″ == 15.92%
+	// 90.0 degrees == 1.5707964㎭ == 90°0′0″ == 100.0ᵍ == 25.00%
 
 }
 

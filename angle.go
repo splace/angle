@@ -1,12 +1,12 @@
 package angle
 
-import "strconv"
 import "fmt"
+import "io"
 
 type angle uint32
 
 const (
-	bits          = 32 // allow simple generation of different precision packages
+	bits          = 32
 	Degree  angle = 1 << (bits - 2) / 90
 	Minute  angle = 1 << (bits - 2) / (90 * 60)
 	Second  angle = 1 << (bits - 2) / (90 * 60 * 60)
@@ -26,95 +26,77 @@ const (
 	binaryDegreeRecip = 1.0 / float64(BinaryDegree)
 )
 
-func (a angle) Format(f fmt.State, r rune) {
-	var vfn func() float64
-	switch r {
-	case 'r':
-		r = '㎭'
-		fallthrough
-	case '㎭':
-		vfn = a.Radians
-	case 'm':
-		r = '′'
-		fallthrough
-	case '′':
-		vfn = a.Minutes
-	case 'g':
-		r = 'ᵍ'
-		fallthrough
-	case 'ᵍ':
-		vfn = a.Gradians
-	case 'l':
-		fmt.Fprintf(f, "%+.0d", a)
-		a -= angle(a.Degrees()) * Degree
-		fmt.Fprintf(f, "%+.0m", a)
-		a -= angle(a.Minutes()) * Minute
-		fallthrough
-	case 's':
-		r = '″'
-		fallthrough
-	case '″':
-		vfn = a.Seconds
-		r = '″'
-	case 'c':
-		switch a >> (bits - 5) {
-		case 0, 31:
-			f.Write([]byte("N"))
-		case 1, 2:
-			f.Write([]byte("NNE"))
-		case 3, 4:
-			f.Write([]byte("NE"))
-		case 5, 6:
-			f.Write([]byte("ENE"))
-		case 7, 8:
-			f.Write([]byte("E"))
-		case 9, 10:
-			f.Write([]byte("NSE"))
-		case 11, 12:
-			f.Write([]byte("SE"))
-		case 13, 14:
-			f.Write([]byte("SSE"))
-		case 15, 16:
-			f.Write([]byte("S"))
-		case 17, 18:
-			f.Write([]byte("SSW"))
-		case 19, 20:
-			f.Write([]byte("SW"))
-		case 21, 22:
-			f.Write([]byte("WSW"))
-		case 23, 24:
-			f.Write([]byte("W"))
-		case 25, 26:
-			f.Write([]byte("WNW"))
-		case 27, 28:
-			f.Write([]byte("NW"))
-		case 29, 30:
-			f.Write([]byte("NNW"))
-		}
-		return
+func scalerAndUnit(scaler rune) (func(angle)float64, string){
+	switch scaler {
+	case 'r','㎭':
+		return angle.Radians,"㎭"
+	case 'm','′':
+		return angle.Minutes,"′"
+	case 's','″':
+		return angle.Seconds,"″"
+	case 'g','ᵍ':
+		return angle.Gradians,"ᵍ"
 	case 't':
-		vfn = a.Rotations
-		r = '⟳'
+		return angle.Rotations, "⟳"
 	case 'f':
-		vfn = func()float64{return a.Rotations()*100}
-		r = '%'
+		return func(a angle)float64{return a.Rotations()*100},"%"
 	case 'b':
-		vfn = a.BinaryDegrees
-	case 'd', 'v':
-		r = '°'
+		return angle.BinaryDegrees,"b"
+	case 'd', 'v', '°':
 		fallthrough
-	case '°':
-		fallthrough
+	default: 
+		return angle.Degrees,"°"
+	}
+}
+
+func (a angle) WriteCourse(w io.Writer){
+	switch a >> (bits - 5) {
+	case 0, 31:
+		w.Write([]byte("N"))
+	case 1, 2:
+		w.Write([]byte("NNE"))
+	case 3, 4:
+		w.Write([]byte("NE"))
+	case 5, 6:
+		w.Write([]byte("ENE"))
+	case 7, 8:
+		w.Write([]byte("E"))
+	case 9, 10:
+		w.Write([]byte("NSE"))
+	case 11, 12:
+		w.Write([]byte("SE"))
+	case 13, 14:
+		w.Write([]byte("SSE"))
+	case 15, 16:
+		w.Write([]byte("S"))
+	case 17, 18:
+		w.Write([]byte("SSW"))
+	case 19, 20:
+		w.Write([]byte("SW"))
+	case 21, 22:
+		w.Write([]byte("WSW"))
+	case 23, 24:
+		w.Write([]byte("W"))
+	case 25, 26:
+		w.Write([]byte("WNW"))
+	case 27, 28:
+		w.Write([]byte("NW"))
+	case 29, 30:
+		w.Write([]byte("NNW"))
+	}
+}
+
+func (a angle) Format(f fmt.State, r rune) {
+	switch r {
+	case 'l':
+		fmt.Fprintf(f, `%+.0d%+.0m`, a,a%Degree)
+		Angle{a%Minute}.Format(f,'s')		
+	case 'c':
+ 		a.WriteCourse(f)
 	default:
-		vfn = a.Degrees
-	}
-	if p, set := f.Precision(); set {
-		f.Write([]byte(strconv.FormatFloat(vfn(), 'f', p, bits)))
-	} else {
-		f.Write([]byte(strconv.FormatFloat(vfn(), 'f', -1, bits)))
-	}
-	if f.Flag('+') {
-		fmt.Fprint(f, string(r))
+//		f.Write([]byte(string('|')))
+		Angle{a}.Format(f,r)
+//		f.Write([]byte(string('|')))
 	}
 }
 

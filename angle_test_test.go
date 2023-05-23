@@ -6,14 +6,12 @@ import "fmt"
 import . "../angle"  // remove 'go.mod' for local testing.
 
 func ExampleAngle_testDelta() {
-	fmt.Printf("%.1v degrees == %+[1]r == %+[1]v == %+.0[1]m == %+.2[1]l\n", Delta{Radian})
-	fmt.Printf("%.1v degrees == %+[1]㎭ == %+.1[1]l == %+.0[1]s == %+.1[1]g\n", Delta{RightAngle})
+	fmt.Printf("%.1v degrees == %+[1]r == %+[1]v == %+.1[1]l == %+.2[1]f\n", Delta{Radian})
+	fmt.Printf("%.1v degrees == %+[1]㎭ == %+.1[1]l == %+.1[1]g == %+.2[1]f\n", Delta{RightAngle})
 	// Output:
-	// |57.3| degrees == |1㎭| == |57.295784°| == |3438′| == |57°18′44.82″|
-	// |90.0| degrees == |1.5707964㎭| == |90°0′0.0″| == |324002″| == |100.0ᵍ|
-
+	// 57.3 degrees == 1㎭ == 57.295784° == 57.3° == 15.92%
+	// 90.0 degrees == 1.5707964㎭ == 90.0° == 100.0ᵍ == 25.00%
 }
-
 
 func ExampleAngle_testSweepContains() {
 	fmt.Println(
