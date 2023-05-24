@@ -30,7 +30,7 @@ func ExampleAngles() {
 
 Here an angle is represented as an unsigned int with its whole range representing one revolution.
 
-Since its maximium approaches one rotation, its modulus behaviour matches a rotation modulus. You get restricted within one revolution automatically. 
+Since its maximum approaches one rotation, its modulus behaviour matches a rotation modulus. You get restricted within one revolution automatically. 
 
 Notice: 'real' angles aren't multiplied by other angles.
 
