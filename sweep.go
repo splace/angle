@@ -25,6 +25,7 @@ func (a Angle) Format(f fmt.State, r rune) {
 	}
 }
 
+// just for documentation
 type Delta = Angle
 
 // Sector is an angular region From an angle and of a Delta (Angle), in either direction.

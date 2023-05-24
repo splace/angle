@@ -3,8 +3,8 @@ package angle
 import "fmt"
 
 func ExampleSweepAngle() {
-	fmt.Printf("%.1v degrees == %+[1]r == %+[1]v == %+.1[1]l == %+.2[1]f\n", Delta{Radian})
-	fmt.Printf("%.1v degrees == %+[1]㎭ == %+.1[1]l == %+.1[1]g == %+.2[1]f\n", Delta{RightAngle})
+	fmt.Printf("%.1v degrees == %+[1]r == %+[1]v == %+.1[1]l == %+.2[1]f\n", Angle{Radian})
+	fmt.Printf("%.1v degrees == %+[1]㎭ == %+.1[1]l == %+.1[1]g == %+.2[1]f\n", Angle{RightAngle})
 	// Output:
 	// 57.3 degrees == 1㎭ == 57.295784° == 57.3° == 15.92%
 	// 90.0 degrees == 1.5707964㎭ == 90.0° == 100.0ᵍ == 25.00%
