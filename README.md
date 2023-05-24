@@ -4,7 +4,7 @@ an attempt at a simply-as-possible abstraction that still effectively hides the 
 
 or
 
-'typed' angles.
+an angle type.
 
 (potentially a pattern for other similar.)
 
@@ -36,7 +36,7 @@ Notice: 'real' angles aren't multiplied by other angles.
 
 angles are symmetrical, no particular value is special, so a float representation with its higher precision closer to the zero value, is a mismatched behaviour.
 
-Formula, say involving sin/cos, with intermediate steps involving small angles, needs to be handled with floats throughout (unless rounding errors when using this Angle is determined to be OK). these intermediate steps might be considered as not being angles but Angle differences, so this might be expected. 
+Formula, say involving sin/cos, with intermediate steps involving small angles, need to be handled with floats throughout (unless rounding errors when using this Angle is determined to be OK). these intermediate steps might be considered as not being angles but Angle differences, so this might be expected. 
 
 360 degrees (or 2Pi radians etc.) is just 0, and so is encoded/returned as 0 degrees. ( or 0 radians etc).
 
@@ -46,10 +46,10 @@ Note: constants report an out of range error when used beyond one rotation, repl
 
 # Sector: application of the angle difference type Delta (Angle)
 
-a sector encodes an angular region, this necessarily requiring a direction. (Counter)Clockwise.
+a Sector encodes an angular region, this necessarily requires a direction. (Counter)Clockwise.
 
 example: range over a Sector clockwise for 20 gradians from 390 gradians, show degree.
-Note: 10gradians == 9degrees, so 9 divisions splitting 20 gradians should be 10 angles in 2 degree steps.
+Note: 10 gradians == 9 degrees, so 9 divisions splitting 20 gradians should be 10 angles in 2 degree steps.
 
 [Sweep Iteration Example](https://go.dev/play/p/L3HbDJ5DElP)
 
