@@ -1,10 +1,12 @@
-# Angle
+# angle
 
-an attempt at a general nice-n-clean (hiding the solution-space) way of using angles.
+an attempt at a simply-as-possible abstraction that still effectively hides the solution-space.
 
-a 'typed' angle. potentially a pattern for other similar.
+or
 
-(could be compared with std. lib. Time/Duration.)
+an angle type.
+
+(potentially a pattern for other similar.)
 
 Overview/docs: [![GoDoc](https://godoc.org/github.com/splace/angle?status.svg)](https://godoc.org/github.com/splace/angle)
 
@@ -26,15 +28,15 @@ func ExampleAngles() {
 
 # encoded as integers.
 
-Here an Angle is a uint32 with its whole range representing one revolution.
+Here an angle is represented as an unsigned int with its whole range representing one revolution.
 
-Since its max approaches one rotation, its modulus behaviour matches a rotation modulus, so you get restricted within one revolution automatically. 
+Since its maximum approaches one rotation, its modulus behaviour matches a rotation modulus. You get restricted within one revolution automatically. 
 
-Notice: 'real' Angles aren't multiplied by other angles.
+Notice: 'real' angles aren't multiplied by other angles.
 
-Angles, rather than angle differences, are symmetrical, no particular value is special, so a float representation with its higher precision closer to the zero value, is a mismatched behaviour.
+angles are symmetrical, no particular value is special, so a float representation with its higher precision closer to the zero value, is a mismatched behaviour.
 
-Formula, say involving sin/cos, with intermediate steps involving small angles, needs to be handled with floats throughout (unless rounding errors when using this Angle is determined to be OK). these intermediate steps might be considered as not being Angles but Angles differences, so this might be expected. 
+Formula, say involving sin/cos, with intermediate steps involving small angles, need to be handled with floats throughout (unless rounding errors when using this Angle is determined to be OK). these intermediate steps might be considered as not being angles but Angle differences, so this might be expected. 
 
 360 degrees (or 2Pi radians etc.) is just 0, and so is encoded/returned as 0 degrees. ( or 0 radians etc).
 
@@ -42,12 +44,12 @@ Power of two fractions of a rotation, are represented exactly, eg. 64*BinaryDegr
 
 Note: constants report an out of range error when used beyond one rotation, replace with variables.
 
-# Sector
+# Sector: application of the angle difference type Delta (Angle)
 
-encodes a region between two angles, necessarily requiring a direction. (Counter)Clockwise.
+a Sector encodes an angular region, this necessarily requires a direction. (Counter)Clockwise.
 
-example: range clockwise 20 gradians from 390 gradians, show degree.
-Note 10gradians == 9degrees, so 9 divisions splitting 20 gradians should be 10 angles in 2 degree steps.
+example: range over a Sector clockwise for 20 gradians from 390 gradians, show degree.
+Note: 10 gradians == 9 degrees, so 9 divisions splitting 20 gradians should be 10 angles in 2 degree steps.
 
 [Sweep Iteration Example](https://go.dev/play/p/L3HbDJ5DElP)
 

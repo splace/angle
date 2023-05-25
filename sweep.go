@@ -9,22 +9,21 @@ import "strconv"
 // angle's (like Time) have a common 'reference' zero but not a defined scaling center. making it possible to change the 'solution space' value that represents zero.
 // Angle's (like Duration) have a problem-space and a scaling center zero that are the same as the solution-space zero and so can be multipled.
 // Example Sector: doubling the From (angle) makes no sense in the problem-space, but doubling the Delta (=Angle) clearly represents twice the sector size. 
-type Angle struct{
-	Angle angle
-}
+type Angle angle
 
 func (a Angle) Format(f fmt.State, r rune) {
 	sfn,u:=scalerAndUnit(r)
 	if p, set := f.Precision(); set {
-		f.Write([]byte(strconv.FormatFloat(sfn(a.Angle), 'f', p, bits)))
+		f.Write([]byte(strconv.FormatFloat(sfn(angle(a)), 'f', p, bits)))
 	} else {
-		f.Write([]byte(strconv.FormatFloat(sfn(a.Angle), 'f', -1, bits)))
+		f.Write([]byte(strconv.FormatFloat(sfn(angle(a)), 'f', -1, bits)))
 	}
 	if f.Flag('+') {
 		fmt.Fprint(f, u)
 	}
 }
 
+// just for documentation
 type Delta = Angle
 
 // Sector is an angular region From an angle and of a Delta (Angle), in either direction.
@@ -40,7 +39,7 @@ func NewSector(f,a angle,d Direction) Sector{
 	if d==CCW {
 		a=-a
 	}
-	return Sector{f,Delta{a},d}
+	return Sector{f,Delta(a),d}
 }
 
 type Direction bool
@@ -54,11 +53,11 @@ const (
 
 
 func (s Sector) Contains(a angle) bool {
-	if s.From+s.Delta.Angle > s.From {
-		return (a >= s.From && a <=s.Delta.Angle) == s.Direction
+	if s.From+angle(s.Delta) > s.From {
+		return (a >= s.From && a <= angle(s.Delta)) == s.Direction
 	}
 	// sector crosses zero.
-	return (a >= s.From || a <= s.Delta.Angle) == s.Direction
+	return (a >= s.From || a <= angle(s.Delta)) == s.Direction
 }
 
 
@@ -70,11 +69,11 @@ func Over(s Sector, steps uint) <-chan angle {
 		div:=1.0 / float64(steps)
 		if s.Direction == CounterClockwise {
 			for i := uint(0); i <= steps; i++ {
-				as <- s.From - angle(float64(-s.Delta.Angle) * float64(i) *div)
+				as <- s.From - angle(float64(-s.Delta) * float64(i) *div)
 			}
 		}else{
 			for i := uint(0); i <= steps; i++ {
-				as <- s.From + angle(float64(s.Delta.Angle) * float64(i) * div)
+				as <- s.From + angle(float64(s.Delta) * float64(i) * div)
 			}
 		}
 		close(as)
@@ -90,13 +89,13 @@ func CCWOver(s Sector, steps uint) <-chan angle {
 		div:=1.0 / float64(steps)
 		if s.Direction == CounterClockwise {
 			for  ;; steps-- {
-				as <- s.From - angle(float64(-s.Delta.Angle) * float64(steps) * div)
+				as <- s.From - angle(float64(-s.Delta) * float64(steps) * div)
 				if steps==0 {break}
 			}
 			
 		}else{
 			for ;;steps-- {
-				as <- s.From + angle(float64(s.Delta.Angle) * float64(steps) * div)
+				as <- s.From + angle(float64(s.Delta) * float64(steps) * div)
 				if steps==0 {break}
 			}
 		}

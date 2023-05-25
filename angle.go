@@ -90,12 +90,12 @@ func (a angle) Format(f fmt.State, r rune) {
 	switch r {
 	case 'l':
 		fmt.Fprintf(f, `%+.0d%+.0m`, a,a%Degree)
-		Angle{a%Minute}.Format(f,'s')		
+		Angle(a%Minute).Format(f,'s')		
 	case 'c':
  		a.WriteCourse(f)
 	default:
 //		f.Write([]byte(string('|')))
-		Angle{a}.Format(f,r)
+		Angle(a).Format(f,r)
 //		f.Write([]byte(string('|')))
 	}
 }
