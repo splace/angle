@@ -23,26 +23,14 @@ func ExampleAngleAdd() {
 	// 90.00°
 }
 
-func ExampleAngleCourse() {
-	fmt.Printf("%c %+[1]d\n", angle(0))
-	fmt.Printf("%c %+[1]d\n", Degree*180)
-	fmt.Printf("%c %+[1]d\n", Degree*348)
-	fmt.Printf("%c %+[1]d\n", Degree*349)
-	// Output:
-	// N 0°
-	// S 180°
-	// NNW 348°
-	// N 349°
-}
-
 func ExampleAngleMin() {
-	fmt.Printf("%.4[1]rμ㎭\n", angle(1)*1000000)
+	fmt.Printf("%.4[1]rμ㎭\n", Direction(1)*1000000)
 	// Output:
 	// 0.0015μ㎭
 }
 
 func ExampleAngleBinary() {
-	fmt.Printf("%+.2[1]d %+.0[1]l\n", angle(1<<(bits-8)))
+	fmt.Printf("%+.2[1]d %+.0[1]l\n", Direction(1<<(bits-8)))
 	// Output:
 	// 1.41° 1°24′23″
 }
@@ -75,7 +63,6 @@ func ExampleAngleRotations() {
 	// 0.50⟳
 	// 0.50⟳
 }
-
 
 func TestAngle(t *testing.T) {
 

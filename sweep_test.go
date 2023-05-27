@@ -3,28 +3,27 @@ package angle
 import "fmt"
 
 func ExampleSweepAngle() {
-	fmt.Printf("%.1v degrees == %+[1]r == %+[1]v == %+.1[1]l == %+.2[1]f\n", Angle(Radian))
-	fmt.Printf("%.1v degrees == %+[1]㎭ == %+.1[1]l == %+.1[1]g == %+.2[1]f\n", Angle(RightAngle))
+	fmt.Printf("%+.0[1]l %[1]c\n",Direction(RightAngle))	
+	fmt.Printf("%+.0[1]l %[1]c\n",Direction(RightAngle*3/2))
 	// Output:
-	// 57.3 degrees == 1㎭ == 57.295784° == 57.3° == 15.92%
-	// 90.0 degrees == 1.5707964㎭ == 90.0° == 100.0ᵍ == 25.00%
-
+	// 90°0′0″ E
+	// 135°0′0″ SE
 }
 
 func ExampleSweepContains() {
-	fmt.Println(Sector{RightAngle, Delta(3 * RightAngle),CW}.Contains(RightAngle))
-	fmt.Println(Sector{3 * RightAngle, Delta(2 * RightAngle),CW}.Contains(0))
-	fmt.Println(Sector{3 * RightAngle, Delta(2 * RightAngle),CW}.Contains(RightAngle))
-	fmt.Println(Sector{0, Delta(2 * RightAngle),CW}.Contains(3 * RightAngle))
-	fmt.Println(Sector{2 * RightAngle, Delta(0),CW}.Contains(RightAngle))
-	fmt.Println(Sector{3 * RightAngle, Delta(RightAngle),CW}.Contains(0))
+	fmt.Println(Sector{Direction(RightAngle),3 * RightAngle, CW}.Contains(Direction(RightAngle)))
+	fmt.Println(Sector{Direction(3 * RightAngle),2 * RightAngle, CW}.Contains(Direction(0)))
+	fmt.Println(Sector{Direction(3 * RightAngle),2 * RightAngle, CW}.Contains(Direction(RightAngle)))
+	fmt.Println(Sector{Direction(0),2 * RightAngle, CW}.Contains(Direction(3 * RightAngle)))
+	fmt.Println(Sector{Direction(2 * RightAngle),0, CW}.Contains(Direction(RightAngle)))
+	fmt.Println(Sector{Direction(3 * RightAngle),RightAngle, CW}.Contains(Direction(0)))
 
-	fmt.Println(Sector{RightAngle, Delta(3 * RightAngle),CCW}.Contains(2 * RightAngle))
-	fmt.Println(Sector{3 * RightAngle, Delta(2 * RightAngle),CCW}.Contains(0))
-	fmt.Println(Sector{3 * RightAngle, Delta(2 * RightAngle),CCW}.Contains(2*RightAngle))
-	fmt.Println(Sector{0, Delta(2 * RightAngle),CCW}.Contains(3 * RightAngle))
-	fmt.Println(Sector{2 * RightAngle, Delta(0),CCW}.Contains(RightAngle))
-	fmt.Println(Sector{3 * RightAngle, Delta(RightAngle),CCW}.Contains(0))
+	fmt.Println(Sector{Direction(RightAngle),3 * RightAngle, CCW}.Contains(Direction(2 * RightAngle)))
+	fmt.Println(Sector{Direction(3 * RightAngle),2 * RightAngle, CCW}.Contains(Direction(0)))
+	fmt.Println(Sector{Direction(3 * RightAngle),2 * RightAngle, CCW}.Contains(Direction(2 * RightAngle)))
+	fmt.Println(Sector{Direction(0),2 * RightAngle, CCW}.Contains(Direction(3 * RightAngle)))
+	fmt.Println(Sector{Direction(2 * RightAngle),0, CCW}.Contains(Direction(RightAngle)))
+	fmt.Println(Sector{Direction(3 * RightAngle),RightAngle, CCW}.Contains(Direction(0)))
 	// Output:
 	// true
 	// true
@@ -41,24 +40,23 @@ func ExampleSweepContains() {
 }
 
 func ExampleSweepSector() {
-	s := Over(Sector{RightAngle, Delta(RightAngle),CW},2)
-	fmt.Printf("%+.4t %+.4t %+.4t\n", <- s,<-s,<-s )
-	s = Over(Sector{3*RightAngle, Delta(3*RightAngle),CW},2)
-	fmt.Printf("%+.4t %+.4t %+.4t\n", <- s,<-s,<-s )
-	s = Over(Sector{10 * Degree, Delta(340 * Degree),CW},2)
-	fmt.Printf("%+.4d %+.4d %+.4d\n", <- s,<-s,<-s )
-	s = Over(Sector{350 * Degree, Delta(20 * Degree),CW},2)
-	fmt.Printf("%+.4d %+.4d %+.4d\n", <- s,<-s,<-s )
+	s := Over(Sector{Direction(RightAngle),RightAngle, CW}, 2)
+	fmt.Printf("%+.4t %+.4t %+.4t\n", <-s, <-s, <-s)
+	s = Over(Sector{Direction(3 * RightAngle),3 * RightAngle, CW}, 2)
+	fmt.Printf("%+.4t %+.4t %+.4t\n", <-s, <-s, <-s)
+	s = Over(Sector{Direction(10 * Degree),340 * Degree, CW}, 2)
+	fmt.Printf("%+.4d %+.4d %+.4d\n", <-s, <-s, <-s)
+	s = Over(Sector{Direction(350 * Degree),20 * Degree, CW}, 2)
+	fmt.Printf("%+.4d %+.4d %+.4d\n", <-s, <-s, <-s)
 
-
-	s = Over(Sector{3*RightAngle, Delta(3*RightAngle),CCW},2)
-	fmt.Printf("%+.4t %+.4t %+.4t\n", <- s,<-s,<-s )
-	s = Over(Sector{2*RightAngle, Delta(RightAngle),CCW},2)
-	fmt.Printf("%+.4t %+.4t %+.4t\n", <- s,<-s,<-s )
-	s = Over(Sector{10 * Degree, Delta(340 * Degree),CCW},2)
-	fmt.Printf("%+.4d %+.4d %+.4d\n", <- s,<-s,<-s )
-	s = Over(Sector{350 * Degree, Delta(20 * Degree),CCW},2)
-	fmt.Printf("%+.4d %+.4d %+.4d\n", <- s,<-s,<-s )
+	s = Over(Sector{Direction(3 * RightAngle),3 * RightAngle, CCW}, 2)
+	fmt.Printf("%+.4t %+.4t %+.4t\n", <-s, <-s, <-s)
+	s = Over(Sector{Direction(2 * RightAngle),RightAngle, CCW}, 2)
+	fmt.Printf("%+.4t %+.4t %+.4t\n", <-s, <-s, <-s)
+	s = Over(Sector{Direction(10 * Degree),340 * Degree, CCW}, 2)
+	fmt.Printf("%+.4d %+.4d %+.4d\n", <-s, <-s, <-s)
+	s = Over(Sector{Direction(350 * Degree),20 * Degree, CCW}, 2)
+	fmt.Printf("%+.4d %+.4d %+.4d\n", <-s, <-s, <-s)
 	// Output:
 	// 0.2500⟳ 0.3750⟳ 0.5000⟳
 	// 0.7500⟳ 0.1250⟳ 0.5000⟳
@@ -68,5 +66,18 @@ func ExampleSweepSector() {
 	// 0.5000⟳ 0.1250⟳ 0.7500⟳
 	// 10.0000° 360.0000° 350.0000°
 	// 350.0000° 180.0000° 10.0000°
+}
+
+
+func ExampleSweepCourse() {
+	fmt.Printf("%c %+[1]d\n", Direction(0))
+	fmt.Printf("%c %+[1]d\n", Direction(Degree*180))
+	fmt.Printf("%c %+[1]d\n", Direction(Degree*348))
+	fmt.Printf("%c %+[1]d\n", Direction(Degree*349))
+	// Output:
+	// N 0°
+	// S 180°
+	// NNW 348°
+	// N 349°
 }
 
