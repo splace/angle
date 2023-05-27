@@ -1,12 +1,6 @@
 # angle
 
-an attempt at a simply-as-possible abstraction that still effectively hides the solution-space.
-
-or
-
-an angle type.
-
-(potentially a pattern for other similar.)
+an Angle type.  (potentially a pattern for other similar.)
 
 Overview/docs: [![GoDoc](https://godoc.org/github.com/splace/angle?status.svg)](https://godoc.org/github.com/splace/angle)
 
@@ -17,18 +11,18 @@ example of various human readable formats...
 ``` golang
 
 func ExampleAngles() {
-	fmt.Printf("%.1v degrees == %+[1]r == %+[1]v == %+.0[1]m == %+.2[1]l\n", Radian)
-	fmt.Printf("%.1v degrees == %+[1]㎭ == %+.1[1]l == %+.0[1]s == %+.1[1]g\n", RightAngle)
+	fmt.Printf("%.1v degrees == %+[1]r == %+[1]v == %+.0[1]m == %+.0[1]l\n", Radian)
+	fmt.Printf("%.1v degrees == %+[1]㎭ == %+.0[1]l == %+.0[1]s == %+.1[1]g\n", RightAngle)
 	// Output:
-	// 57.3 degrees == 1㎭ == 57.295784° == 3438′ == 57°18′44.82″
-	// 90.0 degrees == 1.5707964㎭ == 90°0′0.0″ == 324002″ == 100.0ᵍ
+	// 57.3 degrees == 1㎭ == 57.295784° == 3438′ == 57°18′44″
+	// 90.0 degrees == 1.5707964㎭ == 90°0′0″ == 324002″ == 100.0ᵍ
 
 }
 ```
 
 # encoded as integers.
 
-Here an angle is represented as an unsigned int with its whole range representing one revolution.
+Here angles are represented as an unsigned int with its whole range representing one revolution.
 
 Since its maximum approaches one rotation, its modulus behaviour matches a rotation modulus. You get restricted within one revolution automatically. 
 
@@ -44,14 +38,14 @@ Power of two fractions of a rotation, are represented exactly, eg. 64*BinaryDegr
 
 Note: constants report an out of range error when used beyond one rotation, replace with variables.
 
-# Sector: application of the angle difference type Delta (Angle)
+# Sector
 
 a Sector encodes an angular region, this necessarily requires a direction. (Counter)Clockwise.
 
 example: range over a Sector clockwise for 20 gradians from 390 gradians, show degree.
 Note: 10 gradians == 9 degrees, so 9 divisions splitting 20 gradians should be 10 angles in 2 degree steps.
 
-[Sweep Iteration Example](https://go.dev/play/p/L3HbDJ5DElP)
+[Sweep Iteration Example](https://go.dev/play/p/VXVZrIQ2Z8k)
 
 
 
