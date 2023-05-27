@@ -2,7 +2,7 @@ package angle
 
 import "fmt"
 
-func ExampleSweepAngle() {
+func ExampleDirectionAngle() {
 	fmt.Printf("%+.0[1]l %[1]c\n",Direction(RightAngle))	
 	fmt.Printf("%+.0[1]l %[1]c\n",Direction(RightAngle*3/2))
 	// Output:
@@ -10,7 +10,7 @@ func ExampleSweepAngle() {
 	// 135°0′0″ SE
 }
 
-func ExampleSweepContains() {
+func ExampleDirectionContains() {
 	fmt.Println(Sector{Direction(RightAngle),3 * RightAngle, CW}.Contains(Direction(RightAngle)))
 	fmt.Println(Sector{Direction(3 * RightAngle),2 * RightAngle, CW}.Contains(Direction(0)))
 	fmt.Println(Sector{Direction(3 * RightAngle),2 * RightAngle, CW}.Contains(Direction(RightAngle)))
@@ -39,7 +39,7 @@ func ExampleSweepContains() {
 	// false
 }
 
-func ExampleSweepSector() {
+func ExampleDirectionSector() {
 	s := Over(Sector{Direction(RightAngle),RightAngle, CW}, 2)
 	fmt.Printf("%+.4t %+.4t %+.4t\n", <-s, <-s, <-s)
 	s = Over(Sector{Direction(3 * RightAngle),3 * RightAngle, CW}, 2)
@@ -69,7 +69,7 @@ func ExampleSweepSector() {
 }
 
 
-func ExampleSweepCourse() {
+func ExampleDirectionCourse() {
 	fmt.Printf("%c %+[1]d\n", Direction(0))
 	fmt.Printf("%c %+[1]d\n", Direction(Degree*180))
 	fmt.Printf("%c %+[1]d\n", Direction(Degree*348))
