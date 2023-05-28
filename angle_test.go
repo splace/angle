@@ -9,7 +9,6 @@ func ExampleAngle() {
 	// Output:
 	// 57.3 degrees == 1㎭ == 57.295784° == 57°18′45″ == 15.92%
 	// 90.0 degrees == 1.5707964㎭ == 90°0′0″ == 100.0ᵍ == 25.00%
-
 }
 
 func ExampleAngleAdd() {
@@ -24,15 +23,15 @@ func ExampleAngleAdd() {
 }
 
 func ExampleAngleMin() {
-	fmt.Printf("%.4[1]rμ㎭\n", Direction(1)*1000000)
+	fmt.Printf("%+.5s == %.4rμ㎭\n",Angle(1), Angle(1)*1000000)
 	// Output:
-	// 0.0015μ㎭
+	// 0.00030″ == 0.0015μ㎭
 }
 
 func ExampleAngleBinary() {
-	fmt.Printf("%+.2[1]d %+.0[1]l\n", Direction(1<<(bits-8)))
+	fmt.Printf("%+.2[1]b == %+.0[1]l\n", Angle(1<<(bits-8)))
 	// Output:
-	// 1.41° 1°24′23″
+	// 1.00b == 1°24′23″
 }
 
 func ExampleAngleMultiply() {

@@ -2,14 +2,6 @@ package angle
 
 import "fmt"
 
-func ExampleDirectionAngle() {
-	fmt.Printf("%+.0[1]l %[1]c\n", Direction(RightAngle))
-	fmt.Printf("%+.0[1]l %[1]c\n", Direction(RightAngle*3/2))
-	// Output:
-	// 90°0′0″ E
-	// 135°0′0″ SE
-}
-
 func ExampleDirectionContains() {
 	fmt.Println(Sector{Direction(RightAngle), 3 * RightAngle, CW}.Contains(Direction(RightAngle)))
 	fmt.Println(Sector{Direction(3 * RightAngle), 2 * RightAngle, CW}.Contains(Direction(0)))
