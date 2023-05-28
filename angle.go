@@ -15,7 +15,7 @@ import "strconv"
 type Angle Direction
 
 const (
-	bits              = 32
+	bits          = 32
 	Degree  Angle = 1 << (bits - 2) / 90
 	Minute  Angle = 1 << (bits - 2) / (90 * 60)
 	Second  Angle = 1 << (bits - 2) / (90 * 60 * 60)
@@ -34,7 +34,6 @@ const (
 	gradianRecip      = 1.0 / float64(Gradian)
 	binaryDegreeRecip = 1.0 / float64(BinaryDegree)
 )
-
 
 func (a Angle) Degrees() float64 {
 	return float64(a) * degreeRecip
@@ -64,9 +63,14 @@ func (a Angle) Rotations() float64 {
 	return float64(a) / (1 << bits)
 }
 
+// angle of fractional rotations
+func Rotations(f float64) Angle {
+	return Angle(f * (1 << bits))
+}
+
 func (a Angle) Format(f fmt.State, r rune) {
 	sfn, u := scalerAndUnit(r)
-	if r== 'l'{
+	if r == 'l' {
 		fmt.Fprintf(f, `%+.0d%+.0m`, a, a%Degree)
 		Angle(a%Minute).Format(f, 's')
 		return

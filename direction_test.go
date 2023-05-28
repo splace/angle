@@ -3,27 +3,27 @@ package angle
 import "fmt"
 
 func ExampleDirectionAngle() {
-	fmt.Printf("%+.0[1]l %[1]c\n",Direction(RightAngle))	
-	fmt.Printf("%+.0[1]l %[1]c\n",Direction(RightAngle*3/2))
+	fmt.Printf("%+.0[1]l %[1]c\n", Direction(RightAngle))
+	fmt.Printf("%+.0[1]l %[1]c\n", Direction(RightAngle*3/2))
 	// Output:
 	// 90°0′0″ E
 	// 135°0′0″ SE
 }
 
 func ExampleDirectionContains() {
-	fmt.Println(Sector{Direction(RightAngle),3 * RightAngle, CW}.Contains(Direction(RightAngle)))
-	fmt.Println(Sector{Direction(3 * RightAngle),2 * RightAngle, CW}.Contains(Direction(0)))
-	fmt.Println(Sector{Direction(3 * RightAngle),2 * RightAngle, CW}.Contains(Direction(RightAngle)))
-	fmt.Println(Sector{Direction(0),2 * RightAngle, CW}.Contains(Direction(3 * RightAngle)))
-	fmt.Println(Sector{Direction(2 * RightAngle),0, CW}.Contains(Direction(RightAngle)))
-	fmt.Println(Sector{Direction(3 * RightAngle),RightAngle, CW}.Contains(Direction(0)))
+	fmt.Println(Sector{Direction(RightAngle), 3 * RightAngle, CW}.Contains(Direction(RightAngle)))
+	fmt.Println(Sector{Direction(3 * RightAngle), 2 * RightAngle, CW}.Contains(Direction(0)))
+	fmt.Println(Sector{Direction(3 * RightAngle), 2 * RightAngle, CW}.Contains(Direction(RightAngle)))
+	fmt.Println(Sector{Direction(0), 2 * RightAngle, CW}.Contains(Direction(3 * RightAngle)))
+	fmt.Println(Sector{Direction(2 * RightAngle), 0, CW}.Contains(Direction(RightAngle)))
+	fmt.Println(Sector{Direction(3 * RightAngle), RightAngle, CW}.Contains(Direction(0)))
 
-	fmt.Println(Sector{Direction(RightAngle),3 * RightAngle, CCW}.Contains(Direction(2 * RightAngle)))
-	fmt.Println(Sector{Direction(3 * RightAngle),2 * RightAngle, CCW}.Contains(Direction(0)))
-	fmt.Println(Sector{Direction(3 * RightAngle),2 * RightAngle, CCW}.Contains(Direction(2 * RightAngle)))
-	fmt.Println(Sector{Direction(0),2 * RightAngle, CCW}.Contains(Direction(3 * RightAngle)))
-	fmt.Println(Sector{Direction(2 * RightAngle),0, CCW}.Contains(Direction(RightAngle)))
-	fmt.Println(Sector{Direction(3 * RightAngle),RightAngle, CCW}.Contains(Direction(0)))
+	fmt.Println(Sector{Direction(RightAngle), 3 * RightAngle, CCW}.Contains(Direction(2 * RightAngle)))
+	fmt.Println(Sector{Direction(3 * RightAngle), 2 * RightAngle, CCW}.Contains(Direction(0)))
+	fmt.Println(Sector{Direction(3 * RightAngle), 2 * RightAngle, CCW}.Contains(Direction(2 * RightAngle)))
+	fmt.Println(Sector{Direction(0), 2 * RightAngle, CCW}.Contains(Direction(3 * RightAngle)))
+	fmt.Println(Sector{Direction(2 * RightAngle), 0, CCW}.Contains(Direction(RightAngle)))
+	fmt.Println(Sector{Direction(3 * RightAngle), RightAngle, CCW}.Contains(Direction(0)))
 	// Output:
 	// true
 	// true
@@ -40,22 +40,22 @@ func ExampleDirectionContains() {
 }
 
 func ExampleDirectionSector() {
-	s := Over(Sector{Direction(RightAngle),RightAngle, CW}, 2)
+	s := Over(Sector{Direction(RightAngle), RightAngle, CW}, 2)
 	fmt.Printf("%+.4t %+.4t %+.4t\n", <-s, <-s, <-s)
-	s = Over(Sector{Direction(3 * RightAngle),3 * RightAngle, CW}, 2)
+	s = Over(Sector{Direction(3 * RightAngle), 3 * RightAngle, CW}, 2)
 	fmt.Printf("%+.4t %+.4t %+.4t\n", <-s, <-s, <-s)
-	s = Over(Sector{Direction(10 * Degree),340 * Degree, CW}, 2)
+	s = Over(Sector{Direction(10 * Degree), 340 * Degree, CW}, 2)
 	fmt.Printf("%+.4d %+.4d %+.4d\n", <-s, <-s, <-s)
-	s = Over(Sector{Direction(350 * Degree),20 * Degree, CW}, 2)
+	s = Over(Sector{Direction(350 * Degree), 20 * Degree, CW}, 2)
 	fmt.Printf("%+.4d %+.4d %+.4d\n", <-s, <-s, <-s)
 
-	s = Over(Sector{Direction(3 * RightAngle),3 * RightAngle, CCW}, 2)
+	s = Over(Sector{Direction(3 * RightAngle), 3 * RightAngle, CCW}, 2)
 	fmt.Printf("%+.4t %+.4t %+.4t\n", <-s, <-s, <-s)
-	s = Over(Sector{Direction(2 * RightAngle),RightAngle, CCW}, 2)
+	s = Over(Sector{Direction(2 * RightAngle), RightAngle, CCW}, 2)
 	fmt.Printf("%+.4t %+.4t %+.4t\n", <-s, <-s, <-s)
-	s = Over(Sector{Direction(10 * Degree),340 * Degree, CCW}, 2)
+	s = Over(Sector{Direction(10 * Degree), 340 * Degree, CCW}, 2)
 	fmt.Printf("%+.4d %+.4d %+.4d\n", <-s, <-s, <-s)
-	s = Over(Sector{Direction(350 * Degree),20 * Degree, CCW}, 2)
+	s = Over(Sector{Direction(350 * Degree), 20 * Degree, CCW}, 2)
 	fmt.Printf("%+.4d %+.4d %+.4d\n", <-s, <-s, <-s)
 	// Output:
 	// 0.2500⟳ 0.3750⟳ 0.5000⟳
@@ -68,7 +68,6 @@ func ExampleDirectionSector() {
 	// 350.0000° 180.0000° 10.0000°
 }
 
-
 func ExampleDirectionCourse() {
 	fmt.Printf("%c %+[1]d\n", Direction(0))
 	fmt.Printf("%c %+[1]d\n", Direction(Degree*180))
@@ -80,4 +79,3 @@ func ExampleDirectionCourse() {
 	// NNW 348°
 	// N 349°
 }
-
