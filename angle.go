@@ -22,37 +22,30 @@ const (
 	RightAngle   Angle = 1 << (bits - 2)
 	BinaryDegree Angle = 1 << (bits - 8) // 256 per rotation.  equal to about about 1.42 degrees
 
-	// internal optimisation
-	degreeRecip       = 1.0 / float64(Degree)
-	minuteRecip       = 1.0 / float64(Minute)
-	secondRecip       = 1.0 / float64(Second)
-	radianRecip       = 1.0 / float64(Radian)
-	gradianRecip      = 1.0 / float64(Gradian)
-	binaryDegreeRecip = 1.0 / float64(BinaryDegree)
 )
 
 func (a Angle) Degrees() float64 {
-	return float64(a) * degreeRecip
+	return float64(a) * 1.0 / float64(Degree)
 }
 
 func (a Angle) Radians() float64 {
-	return float64(a) * radianRecip
+	return float64(a) * 1.0 / float64(Radian)
 }
 
 func (a Angle) Minutes() float64 {
-	return float64(a) * minuteRecip
+	return float64(a) * 1.0 / float64(Minute)
 }
 
 func (a Angle) Seconds() float64 {
-	return float64(a) * secondRecip
+	return float64(a) * 1.0 / float64(Second)
 }
 
 func (a Angle) Gradians() float64 {
-	return float64(a) * gradianRecip
+	return float64(a) * 1.0 / float64(Gradian)
 }
 
 func (a Angle) BinaryDegrees() float64 {
-	return float64(a) * binaryDegreeRecip
+	return float64(a) * 1.0 / float64(BinaryDegree)
 }
 
 func (a Angle) Rotations() float64 {
