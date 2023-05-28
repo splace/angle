@@ -4,13 +4,9 @@ import "fmt"
 import "strconv"
 
 // Direction/Angle is akin to Time/Duration.
-
-// multiplying aa Angle is fine, but multiplying a Direction is not the best type safety.
-
+// multiplying a Angle is fine, but multiplying a Direction is not the best type safety.
 // Direction's (like Time) have a common 'reference' zero but not a defined scaling center. making it possible to change the 'solution space' value that represents zero.
-
 // Angle's (like Duration) have a problem-space and a scaling center zero that are the same as the solution-space zero and so can be multipled.
-
 // Example Sector: doubling the Direction makes no sense in the problem-space, but doubling the Angle clearly represents twice the sector size.
 type Angle Direction
 
