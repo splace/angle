@@ -64,6 +64,11 @@ func (a Angle) Rotations() float64 {
 	return float64(a) / (1 << bits)
 }
 
+// angle of fractional rotations
+func Rotations(f float64) Angle {
+	return Angle(f * (1 << bits))
+}
+
 func (a Angle) Format(f fmt.State, r rune) {
 	sfn, u := scalerAndUnit(r)
 	if r== 'l'{

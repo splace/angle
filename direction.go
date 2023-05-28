@@ -76,7 +76,3 @@ func (d Direction) Format(f fmt.State, r rune) {
 	}
 }
 
-// angle of fractional rotations
-func Rotations(f float64) Direction {
-	return Direction(f * (1 << bits))
-}

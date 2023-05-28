@@ -5,7 +5,7 @@ import "fmt"
 //import . "github.com/splace/angle"
 import . "../angle" // remove 'go.mod' for local testing.
 
-func ExampleAngle_testSweepContains() {
+func ExampleDirection_testSweepContains() {
 	fmt.Println(
 		Sector{Direction(RightAngle),3 * RightAngle, CW}.Contains(Direction(RightAngle)),
 		Sector{Direction(3 * RightAngle),2 * RightAngle, CW}.Contains(Direction(0)),
@@ -29,7 +29,7 @@ func ExampleAngle_testSweepContains() {
 
 // range clockwise 20 gradians from 390 gradians in 9 steps, show values in degrees.
 // Notice: 10gradians == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
-func ExampleAngle_testRangeOverSector() {
+func ExampleDirection_testRangeOverSector() {
 	for a := range Over(NewSector(Direction(Gradian*390), Gradian*20, CW), 9) {
 		fmt.Printf("%+.3v ", a)
 	}
@@ -38,7 +38,7 @@ func ExampleAngle_testRangeOverSector() {
 	// 351.000° 353.000° 355.000° 357.000° 359.000° 1.000° 3.000° 5.000° 7.000° 9.000°
 }
 
-func ExampleAngle_testRangeOverSectorVarious2() {
+func ExampleDirection_testRangeOverSectorVarious2() {
 	s := NewSector(Direction(Gradian*10), Gradian*20, CCW)
 	for a := range Over(s, 9) {
 		fmt.Printf("%+.3v,", a)
