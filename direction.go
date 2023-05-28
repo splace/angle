@@ -75,4 +75,3 @@ func (d Direction) Format(f fmt.State, r rune) {
 		//		f.Write([]byte(string('|')))
 	}
 }
-

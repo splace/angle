@@ -7,20 +7,20 @@ import . "../angle" // remove 'go.mod' for local testing.
 
 func ExampleDirection_testSweepContains() {
 	fmt.Println(
-		Sector{Direction(RightAngle),3 * RightAngle, CW}.Contains(Direction(RightAngle)),
-		Sector{Direction(3 * RightAngle),2 * RightAngle, CW}.Contains(Direction(0)),
-		Sector{Direction(3 * RightAngle),2 * RightAngle, CW}.Contains(Direction(RightAngle)),
-		Sector{Direction(0),2 * RightAngle, CW}.Contains(Direction(3*RightAngle)),
-		Sector{Direction(2 * RightAngle),0, CW}.Contains(Direction(RightAngle)),
-		Sector{Direction(3 * RightAngle),RightAngle, CW}.Contains(Direction(0)),
+		Sector{Direction(RightAngle), 3 * RightAngle, CW}.Contains(Direction(RightAngle)),
+		Sector{Direction(3 * RightAngle), 2 * RightAngle, CW}.Contains(Direction(0)),
+		Sector{Direction(3 * RightAngle), 2 * RightAngle, CW}.Contains(Direction(RightAngle)),
+		Sector{Direction(0), 2 * RightAngle, CW}.Contains(Direction(3*RightAngle)),
+		Sector{Direction(2 * RightAngle), 0, CW}.Contains(Direction(RightAngle)),
+		Sector{Direction(3 * RightAngle), RightAngle, CW}.Contains(Direction(0)),
 	)
 	fmt.Println(
-		Sector{Direction(RightAngle),RightAngle, CCW}.Contains(Direction(2*RightAngle)),
-		Sector{Direction(3 * RightAngle),2 * RightAngle, CCW}.Contains(Direction(0)),
-		Sector{Direction(3 * RightAngle),2 * RightAngle, CCW}.Contains(Direction(2*RightAngle)),
-		Sector{Direction(0),2 * RightAngle, CCW}.Contains(Direction(3*RightAngle)),
-		Sector{Direction(2 * RightAngle),0, CCW}.Contains(Direction(RightAngle)),
-		Sector{Direction(3 * RightAngle),3 * RightAngle, CCW}.Contains(Direction(0)),
+		Sector{Direction(RightAngle), RightAngle, CCW}.Contains(Direction(2*RightAngle)),
+		Sector{Direction(3 * RightAngle), 2 * RightAngle, CCW}.Contains(Direction(0)),
+		Sector{Direction(3 * RightAngle), 2 * RightAngle, CCW}.Contains(Direction(2*RightAngle)),
+		Sector{Direction(0), 2 * RightAngle, CCW}.Contains(Direction(3*RightAngle)),
+		Sector{Direction(2 * RightAngle), 0, CCW}.Contains(Direction(RightAngle)),
+		Sector{Direction(3 * RightAngle), 3 * RightAngle, CCW}.Contains(Direction(0)),
 	)
 	// Output:
 	// true true true false false true
