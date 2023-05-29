@@ -7,7 +7,7 @@ import "strconv"
 // multiplying a Angle is fine, but multiplying a Direction is not the best type safety.
 // Direction's (like Time) have a common 'reference' zero but not a defined scaling center. making it possible to change the 'solution space' value that represents zero.
 // Angle's (like Duration) have a problem-space and a scaling center zero that are the same as the solution-space zero and so can be multipled.
-// Example Sector: doubling the Direction makes no sense in the problem-space, but doubling the Angle clearly represents twice the sector size.
+// Example (see Sector): doubling the Direction makes no sense in the problem-space, but doubling the Angle clearly represents twice the sector size.
 type Angle Direction
 
 const (
@@ -72,84 +72,4 @@ func (a Angle) Format(f fmt.State, r rune) {
 	if f.Flag('+') {
 		fmt.Fprint(f, u)
 	}
-}
-
-// Sector is an angular region From a Direction of an Angle, turning either w ay.
-// notice: the Angle is Clockwise. this means for CCW this is set to 1 rotation minus the required sweep Angle (simply -Angle). see NewSector()
-// this allows sweeps of upto 1 rotation turning either way. using a signed var, to indicate turn way, would only allow upto half a rotation in either.
-type Sector struct {
-	From Direction
-	Angle
-	Turn
-}
-
-func NewSector(from Direction, by Angle, d Turn) Sector {
-	if d == CCW {
-		by = -by
-	}
-	return Sector{from, by, d}
-}
-
-type Turn bool
-
-const (
-	Clockwise Turn = true
-	CW
-	CounterClockwise = false
-	CCW
-)
-
-func (s Sector) Contains(a Direction) bool {
-	if s.From+Direction(s.Angle) > s.From {
-		return (a >= s.From && a <= Direction(s.Angle)) == s.Turn
-	}
-	// sector crosses zero.
-	return (a >= s.From || a <= Direction(s.Angle)) == s.Turn
-}
-
-// return a sequence of Angle's (one more than steps) evenly dividing a sector
-// Note: usually can simply range using a fixed Angle step, this function reduces rounding errors when the divisions are very small.
-func Over(s Sector, steps uint) <-chan Direction {
-	as := make(chan Direction)
-	go func() {
-		div := 1.0 / float64(steps)
-		if s.Turn == CounterClockwise {
-			for i := uint(0); i <= steps; i++ {
-				as <- s.From - Direction(float64(-s.Angle)*float64(i)*div)
-			}
-		} else {
-			for i := uint(0); i <= steps; i++ {
-				as <- s.From + Direction(float64(s.Angle)*float64(i)*div)
-			}
-		}
-		close(as)
-	}()
-	return (<-chan Direction)(as)
-}
-
-var CWOver = Over
-
-func CCWOver(s Sector, steps uint) <-chan Direction {
-	as := make(chan Direction)
-	go func() {
-		div := 1.0 / float64(steps)
-		if s.Turn == CounterClockwise {
-			for ; ; steps-- {
-				as <- s.From - Direction(float64(-s.Angle)*float64(steps)*div)
-				if steps == 0 {
-					break
-				}
-			}
-
-		} else {
-			for ; ; steps-- {
-				as <- s.From + Direction(float64(s.Angle)*float64(steps)*div)
-				if steps == 0 {
-					break
-				}
-			}
-		}
-		close(as)
-	}()
-	return (<-chan Direction)(as)
 }
