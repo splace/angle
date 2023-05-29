@@ -45,7 +45,7 @@ a Sector encodes an angular region, this necessarily requires a direction. (Coun
 example: range over a Sector clockwise for 20 gradians from 390 gradians, show degree.
 Note: 10 gradians == 9 degrees, so 9 divisions splitting 20 gradians should be 10 angles in 2 degree steps.
 
-[Sweep Iteration Example](https://go.dev/play/p/VXVZrIQ2Z8k)
+[Sweep Iteration Example](https://go.dev/play/p/j30uc46iTBb)
 
 
 
