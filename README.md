@@ -40,12 +40,13 @@ Note: constants report an out of range error when used beyond one rotation, repl
 
 # Sector
 
-a Sector encodes an angular region, this necessarily requires a direction. (Counter)Clockwise.
+a Sector encodes an angular region.
 
-example: range over a Sector clockwise for 20 gradians from 390 gradians, show degree.
+example: range over a Sector clockwise from 390 gradians to 10 gradians, show degree.
+
+[Iteration Example](https://go.dev/play/p/j30uc46iTBb)
+
 Note: 10 gradians == 9 degrees, so 9 divisions splitting 20 gradians should be 10 angles in 2 degree steps.
-
-[Sweep Iteration Example](https://go.dev/play/p/j30uc46iTBb)
 
 
 
