@@ -23,7 +23,7 @@ func ExampleAngleAdd() {
 }
 
 func ExampleAngleMin() {
-	fmt.Printf("%+.5s == %.4rμ㎭\n",Angle(1), Angle(1)*1000000)
+	fmt.Printf("%+.5s == %.4rμ㎭\n", Angle(1), Angle(1)*1000000)
 	// Output:
 	// 0.00030″ == 0.0015μ㎭
 }

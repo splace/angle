@@ -2,8 +2,8 @@ package angle_test
 
 import "fmt"
 
-//import . "github.com/splace/angle"
-import . "../angle" // remove 'go.mod' for local testing.
+import . "github.com/splace/angle"
+// import . "../angle" // remove 'go.mod' for local testing.
 
 func ExampleDirection_testSectorContains() {
 	fmt.Println(
@@ -15,11 +15,11 @@ func ExampleDirection_testSectorContains() {
 		Sector{Direction(3 * RightAngle), RightAngle}.Contains(Direction(0)),
 	)
 	fmt.Println(
-		Sector{0, 3*RightAngle}.Contains(Direction(2*RightAngle)),
+		Sector{0, 3 * RightAngle}.Contains(Direction(2*RightAngle)),
 		Sector{Direction(RightAngle), 2 * RightAngle}.Contains(0),
-		Sector{Direction(3*RightAngle), 2 * RightAngle}.Contains(Direction(2*RightAngle)),
-		Sector{Direction(2 * RightAngle),2 * RightAngle}.Contains(Direction(3*RightAngle)),
-		Sector{0,2 * RightAngle}.Contains(Direction(RightAngle)),
+		Sector{Direction(3 * RightAngle), 2 * RightAngle}.Contains(Direction(2*RightAngle)),
+		Sector{Direction(2 * RightAngle), 2 * RightAngle}.Contains(Direction(3*RightAngle)),
+		Sector{0, 2 * RightAngle}.Contains(Direction(RightAngle)),
 		Sector{Direction(RightAngle), RightAngle}.Contains(0),
 	)
 	// Output:

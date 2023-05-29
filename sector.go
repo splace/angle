@@ -1,6 +1,5 @@
 package angle
 
-
 type Turn bool
 
 const (
@@ -10,26 +9,24 @@ const (
 	CCW
 )
 
-
-// Sector is an angular region starting at a Direction and with an Angle width.
-// notice: the Angle is Clockwise.
+// Sector is an angular region starting at a Direction having an Angle width.
 type Sector struct {
 	Direction
 	Angle
 }
 
-func NewSector(from,too Direction, t Turn) Sector {
-	if t==CW {
-		return Sector{from, Angle(too-from)}
+func NewSector(from, too Direction, t Turn) Sector {
+	if t == CW {
+		return Sector{from, Angle(too - from)}
 	}
-	return Sector{too, Angle(from-too)}
+	return Sector{too, Angle(from - too)}
 }
 
 func (s Sector) Contains(a Direction) bool {
-	if u:=s.Direction+Direction(s.Angle); u < s.Direction {
+	if u := s.Direction + Direction(s.Angle); u < s.Direction {
 		// sector crosses zero
 		return a >= s.Direction || a <= u
-	}else{
+	} else {
 		return a >= s.Direction && a <= u
 	}
 }

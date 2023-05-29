@@ -1,6 +1,5 @@
 package angle
 
-
 import "fmt"
 
 func ExampleSectorContains() {
@@ -11,11 +10,11 @@ func ExampleSectorContains() {
 	fmt.Println(Sector{Direction(2 * RightAngle), 0}.Contains(Direction(RightAngle)))
 	fmt.Println(Sector{Direction(3 * RightAngle), RightAngle}.Contains(0))
 
-	fmt.Println(Sector{0, 3*RightAngle }.Contains(Direction(2 * RightAngle)))
+	fmt.Println(Sector{0, 3 * RightAngle}.Contains(Direction(2 * RightAngle)))
 	fmt.Println(Sector{Direction(RightAngle), 2 * RightAngle}.Contains(0))
 	fmt.Println(Sector{Direction(RightAngle), 2 * RightAngle}.Contains(Direction(2 * RightAngle)))
-	fmt.Println(Sector{Direction(2 * RightAngle),0}.Contains(Direction(3 * RightAngle)))
-	fmt.Println(Sector{Direction(2 * RightAngle), 2*RightAngle}.Contains(Direction(3*RightAngle)))
+	fmt.Println(Sector{Direction(2 * RightAngle), 0}.Contains(Direction(3 * RightAngle)))
+	fmt.Println(Sector{Direction(2 * RightAngle), 2 * RightAngle}.Contains(Direction(3 * RightAngle)))
 	fmt.Println(Sector{Direction(2 * RightAngle), RightAngle}.Contains(0))
 	// Output:
 	// true
@@ -44,7 +43,7 @@ func ExampleSectorSector() {
 
 	s = Over(Sector{0, 3 * RightAngle}, 2)
 	fmt.Printf("%+.4t %+.4t %+.4t\n", <-s, <-s, <-s)
-	s = Over(Sector{Direction(2*RightAngle), 3*RightAngle}, 2)
+	s = Over(Sector{Direction(2 * RightAngle), 3 * RightAngle}, 2)
 	fmt.Printf("%+.4t %+.4t %+.4t\n", <-s, <-s, <-s)
 	s = Over(Sector{Direction(10 * Degree), 340 * Degree}, 2)
 	fmt.Printf("%+.4d %+.4d %+.4d\n", <-s, <-s, <-s)
@@ -60,4 +59,3 @@ func ExampleSectorSector() {
 	// 10.0000° 180.0000° 350.0000°
 	// 350.0000° 360.0000° 10.0000°
 }
-
