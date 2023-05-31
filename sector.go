@@ -15,6 +15,8 @@ type Sector struct {
 	Angle
 }
 
+// Sector between two Directions. 
+// from the first parameter with the Turn indicated.
 func NewSector(from, too Direction, t Turn) Sector {
 	if t == CW {
 		return Sector{from, Angle(too - from)}
@@ -31,8 +33,8 @@ func (s Sector) Contains(a Direction) bool {
 	}
 }
 
-// return a sequence of Angle's (one more than steps) evenly dividing a sector
-// Note: usually can simply range using a fixed Angle step, this function reduces rounding errors when the divisions are very small.
+// return Angle's (one more than steps) evenly dividing a sector
+// Note: can simply range using a fixed Angle step, but this function can be used to reduce rounding errors particularly when the divisions are very small.
 func Over(s Sector, steps uint) <-chan Direction {
 	as := make(chan Direction)
 	go func() {
@@ -45,9 +47,9 @@ func Over(s Sector, steps uint) <-chan Direction {
 	return (<-chan Direction)(as)
 }
 
-var CWOver = Over
+var OverCW = Over
 
-func CCWOver(s Sector, steps uint) <-chan Direction {
+func OverCCW(s Sector, steps uint) <-chan Direction {
 	as := make(chan Direction)
 	go func() {
 		div := 1.0 / float64(steps)

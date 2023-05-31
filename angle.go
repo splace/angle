@@ -3,11 +3,9 @@ package angle
 import "fmt"
 import "strconv"
 
-// Direction/Angle is akin to Time/Duration.
-// multiplying a Angle is fine, but multiplying a Direction is not the best type safety.
-// Direction's (like Time) have a common 'reference' zero but not a defined scaling center. making it possible to change the 'solution space' value that represents zero.
-// Angle's (like Duration) have a problem-space and a scaling center zero that are the same as the solution-space zero and so can be multipled.
-// Example (see Sector): doubling the Direction makes no sense in the problem-space, but doubling the Angle clearly represents twice the sector size.
+// Angle/Direction are restricted to a single revolution, no multi-turn. these types achieve this simply by using an unsigned int representation with its whole range representing one revolution.
+// Angle's (like time.Duration) have a problem-space and a scaling center zero that are the same as the solution-space zero and so can be multipled.
+// Direction's (like time.Time) have a common 'reference' zero but not a defined scaling center. making it possible to change the 'solution space' value that represents zero.
 type Angle Direction
 
 const (
