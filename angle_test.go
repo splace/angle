@@ -1,7 +1,6 @@
 package angle
 
 import "fmt"
-import "testing"
 
 func ExampleAnglePrint() {
 	fmt.Printf("%.1v degrees == %+[1]r == %+[1]v == %+.0[1]l == %+.2[1]f\n", Radian)

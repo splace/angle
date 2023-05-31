@@ -10,11 +10,11 @@ type Angle Direction
 
 const (
 	bits          = 32
-	Degree  Angle = 1 << (bits - 2) / 90
-	Minute  Angle = 1 << (bits - 2) / (90 * 60)
-	Second  Angle = 1 << (bits - 2) / (90 * 60 * 60)
+	Degree  Angle = 1 << (bits - 1) / 180
+	Minute  Angle = 1 << (bits - 1) / (180 * 60)
+	Second  Angle = 1 << (bits - 1) / (180 * 60 * 60)
 	Radian  Angle = (2935890503282001408) >> (64 - bits) // math.MaxUint64 / (2 * math.Pi )
-	Gradian Angle = 1 << (bits - 2) / 100
+	Gradian Angle = 1 << (bits - 1) / 200
 
 	// exact representation
 	RightAngle   Angle = 1 << (bits - 2)
@@ -23,27 +23,27 @@ const (
 )
 
 func (a Angle) Degrees() float64 {
-	return float64(a) * 1.0 / float64(Degree)
+	return float64(a) / float64(Degree)
 }
 
 func (a Angle) Radians() float64 {
-	return float64(a) * 1.0 / float64(Radian)
+	return float64(a)  / float64(Radian)
 }
 
 func (a Angle) Minutes() float64 {
-	return float64(a) * 1.0 / float64(Minute)
+	return float64(a) / float64(Minute)
 }
 
 func (a Angle) Seconds() float64 {
-	return float64(a) * 1.0 / float64(Second)
+	return float64(a) / float64(Second)
 }
 
 func (a Angle) Gradians() float64 {
-	return float64(a) * 1.0 / float64(Gradian)
+	return float64(a) / float64(Gradian)
 }
 
 func (a Angle) BinaryDegrees() float64 {
-	return float64(a) * 1.0 / float64(BinaryDegree)
+	return float64(a) / float64(BinaryDegree)
 }
 
 func (a Angle) Rotations() float64 {
