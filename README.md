@@ -1,6 +1,12 @@
 # angle
 
-an Angle type.  (potentially a pattern for other similar.)
+an Angle type. 
+
+encoded as an unsigned integer with its whole range representing one revolution, creating a 'modulus arithmetic' type, the zero so being transparent in the problem-space. only up to 1 revolution can be represented, higher/lower vales are automatically converted to the same angle within one revolution. so there is no way to represent multi-turn angles in a single value.
+
+this modulus behaviour occurs fundamentally, so this type doesn't require/have its own maths operators.
+
+potentially a pattern for other similar problem-space types.
 
 Overview/docs: [![GoDoc](https://godoc.org/github.com/splace/angle?status.svg)](https://godoc.org/github.com/splace/angle)
 
@@ -22,13 +28,11 @@ func ExampleAngles() {
 
 # encoded as integers.
 
-Here angles are represented as an unsigned int with its whole range representing one revolution.
-
-Since its maximum approaches one rotation, its modulus behaviour matches a rotation modulus. You get restricted within one revolution automatically. 
-
-Notice: 'real' angles aren't multiplied by other angles.
-
 angles are symmetrical, no particular value is special, so a float representation with its higher precision closer to the zero value, is a mismatched behaviour.
+
+angles (Angle and Direction types) shouldn't be multiplied with themselves or each other.
+
+and, specifically, Direction's shouldn't be added/subtracted from other Directions.
 
 Formula, say involving sin/cos, with intermediate steps involving small angles, need to be handled with floats throughout (unless rounding errors when using this Angle is determined to be OK). these intermediate steps might be considered as not being angles but Angle differences, so this might be expected. 
 
@@ -40,7 +44,9 @@ Note: constants report an out of range error when used beyond one rotation, repl
 
 # Sector
 
-a Sector encodes an angular region.
+a Sector encodes an angular region using a Direction and an Angle, the Angle being the size of the region, in a positive sense, from the Direction. so Sections don't have a winding.
+
+Sectors are inclusive, so representing all angle's requires Angle set to one base unit less. (0-1) 
 
 example: range over a Sector clockwise from 390 gradians to 10 gradians, show degree.
 
