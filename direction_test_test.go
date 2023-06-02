@@ -2,8 +2,8 @@ package angle_test
 
 import "fmt"
 
-import . "github.com/splace/angle"
-// import . "../angle" // remove 'go.mod' for local testing.
+//import . "github.com/splace/angle"
+import . "../angle" // remove 'go.mod' for local testing.
 
 func ExampleDirection_testSectorContains() {
 	fmt.Println(
@@ -40,12 +40,12 @@ func ExampleDirection_testRangeOverSector() {
 
 func ExampleDirection_testRangeOverSectorVarious2() {
 	s := NewSector(Direction(Gradian*10), Direction(Gradian*390), CCW)
-	for a := range CCWOver(s, 9) {
+	for a := range OverCCW(s, 9) {
 		fmt.Printf("%+.3v,", a)
 	}
 	fmt.Println()
 	// reverse
-	for a := range CWOver(s, 9) {
+	for a := range OverCW(s, 9) {
 		fmt.Printf("%+.3v,", a)
 	}
 	fmt.Println()
