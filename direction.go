@@ -3,7 +3,7 @@ package angle
 import "fmt"
 import "io"
 
-type Direction uint32
+type Direction Angle
 
 func scalerAndUnit(scaler rune) (func(Phase) float64, string) {
 	switch scaler {
