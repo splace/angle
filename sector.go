@@ -15,7 +15,7 @@ type Sector struct {
 	Angle
 }
 
-// Sector between two Directions. 
+// Sector between two Directions.
 // from the first parameter with the Turn indicated.
 func NewSector(from, too Direction, t Turn) Sector {
 	if t == CW {

@@ -5,26 +5,26 @@ import "io"
 
 type Direction uint32
 
-func scalerAndUnit(scaler rune) (func(Angle) float64, string) {
+func scalerAndUnit(scaler rune) (func(Phase) float64, string) {
 	switch scaler {
 	case 'r', '㎭':
-		return Angle.Radians, "㎭"
+		return Phase.Radians, "㎭"
 	case 'm', '′':
-		return Angle.Minutes, "′"
+		return Phase.Minutes, "′"
 	case 's', '″':
-		return Angle.Seconds, "″"
+		return Phase.Seconds, "″"
 	case 'g', 'ᵍ':
-		return Angle.Gradians, "ᵍ"
+		return Phase.Gradians, "ᵍ"
 	case 't':
-		return Angle.Rotations, "⟳"
+		return Phase.Rotations, "⟳"
 	case 'f':
-		return func(a Angle) float64 { return a.Rotations() * 100 }, "%"
+		return func(a Phase) float64 { return a.Rotations() * 100 }, "%"
 	case 'b':
-		return Angle.BinaryDegrees, "b"
+		return Phase.BinaryDegrees, "b"
 	case 'd', 'v', '°':
 		fallthrough
 	default:
-		return Angle.Degrees, "°"
+		return Phase.Degrees, "°"
 	}
 }
 
@@ -71,7 +71,7 @@ func (d Direction) Format(f fmt.State, r rune) {
 		d.WriteCourse(f)
 	default:
 		//		f.Write([]byte(string('|')))
-		Angle(d).Format(f, r)
+		Phase(d).Format(f, r)
 		//		f.Write([]byte(string('|')))
 	}
 }

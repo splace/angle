@@ -3,7 +3,7 @@ package angle
 import "fmt"
 
 func ExampleDirection() {
-	f:="%c (%+.2[1]d)\n"
+	f := "%c (%+.2[1]d)\n"
 	fmt.Printf(f, Direction(0))
 	fmt.Printf(f, Direction(RightAngle))
 	fmt.Printf(f, Direction(RightAngle/2))
