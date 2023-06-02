@@ -31,7 +31,7 @@ func ExampleSectorContains() {
 	// false
 }
 
-// Example (see Sector): doubling the Direction makes no sense in the problem-space, but doubling the Angle clearly represents twice the sector size.
+// Example (see Sector): doubling the Direction makes no sense in the problem-space, but doubling the Angle/Phase clearly represents twice the sector size.
 func ExampleSector() {
 	s := Over(Sector{Direction(RightAngle), RightAngle}, 2)
 	fmt.Printf("%+.4t %+.4t %+.4t\n", <-s, <-s, <-s)
