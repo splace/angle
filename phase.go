@@ -5,7 +5,7 @@ import "strconv"
 
 // Phase/Direction are restricted to a single revolution, no multi-turn. these types achieve this simply by using an unsigned int representation with its whole range representing one revolution.
 // Phase's (like time.Duration) have a problem-space and a scaling center zero that are the same as the solution-space zero and so can be multipled.
-// Direction's (like time.Time) have a common 'reference' zero but not a defined scaling center. making it possible to change the 'solution space' value that represents zero.
+// Direction's (like time.Time) have a common 'reference' zero but not a defined scaling center. making it possible to change the 'solution space' value that represents zero. making them fundamentally different.
 type Phase uint32
 
 type Angle = Phase
@@ -25,27 +25,27 @@ const (
 )
 
 func (a Phase) Degrees() float64 {
-	return float64(a) / float64(Degree)
+	return float64(a) * (1.0 / float64(Degree))
 }
 
 func (a Phase) Radians() float64 {
-	return float64(a) / float64(Radian)
+	return float64(a) * (1.0 / float64(Radian))
 }
 
 func (a Phase) Minutes() float64 {
-	return float64(a) / float64(Minute)
+	return float64(a) * (1.0 / float64(Minute))
 }
 
 func (a Phase) Seconds() float64 {
-	return float64(a) / float64(Second)
+	return float64(a) * (1.0 / float64(Second))
 }
 
 func (a Phase) Gradians() float64 {
-	return float64(a) / float64(Gradian)
+	return float64(a) * (1.0 / float64(Gradian))
 }
 
 func (a Phase) BinaryDegrees() float64 {
-	return float64(a) / float64(BinaryDegree)
+	return float64(a) * (1.0 / float64(BinaryDegree))
 }
 
 func (a Phase) Rotations() float64 {
@@ -71,5 +71,28 @@ func (a Phase) Format(f fmt.State, r rune) {
 	}
 	if f.Flag('+') {
 		fmt.Fprint(f, u)
+	}
+}
+
+func scalerAndUnit(scaler rune) (func(Phase) float64, string) {
+	switch scaler {
+	case 'r', '㎭':
+		return Phase.Radians, "㎭"
+	case 'm', '′':
+		return Phase.Minutes, "′"
+	case 's', '″':
+		return Phase.Seconds, "″"
+	case 'g', 'ᵍ':
+		return Phase.Gradians, "ᵍ"
+	case 't':
+		return Phase.Rotations, "⟳"
+	case 'f':
+		return func(a Phase) float64 { return a.Rotations() * 100 }, "%"
+	case 'b':
+		return Phase.BinaryDegrees, "b"
+	case 'd', 'v', '°':
+		fallthrough
+	default:
+		return Phase.Degrees, "°"
 	}
 }

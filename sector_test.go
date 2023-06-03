@@ -31,8 +31,7 @@ func ExampleSectorContains() {
 	// false
 }
 
-// Example (see Sector): doubling the Direction makes no sense in the problem-space, but doubling the Angle/Phase clearly represents twice the sector size.
-func ExampleSector() {
+func ExampleSectorOver() {
 	s := Over(Sector{Direction(RightAngle), RightAngle}, 2)
 	fmt.Printf("%+.4t %+.4t %+.4t\n", <-s, <-s, <-s)
 	s = Over(Sector{Direction(3 * RightAngle), 3 * RightAngle}, 2)
@@ -59,4 +58,31 @@ func ExampleSector() {
 	// 0.5000⟳ 0.8750⟳ 0.2500⟳
 	// 10.0000° 180.0000° 350.0000°
 	// 350.0000° 360.0000° 10.0000°
+}
+
+func ExampleSectorReverse() {
+	s:=NewSector(Direction(RightAngle*3),Direction(RightAngle),CW)
+	rs:=s.Reverse()  
+	for d:=range Over(Sector{Angle:340*Degree},17){
+		fmt.Printf("%+v %v %v\n", d, s.Contains(d),rs.Contains(d))
+	}
+	// Output:
+	//0° true false
+	//20° true false
+	//40° true false
+	//60° true false
+	//80° true false
+	//100° false true
+	//120° false true
+	//140° false true
+	//160° false true
+	//180° false true
+	//200° false true
+	//220° false true
+	//240° false true
+	//260° false true
+	//280° true false
+	//300° true false
+	//320° true false
+	//340° true false
 }

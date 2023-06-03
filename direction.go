@@ -3,30 +3,7 @@ package angle
 import "fmt"
 import "io"
 
-type Direction Angle
-
-func scalerAndUnit(scaler rune) (func(Phase) float64, string) {
-	switch scaler {
-	case 'r', '㎭':
-		return Phase.Radians, "㎭"
-	case 'm', '′':
-		return Phase.Minutes, "′"
-	case 's', '″':
-		return Phase.Seconds, "″"
-	case 'g', 'ᵍ':
-		return Phase.Gradians, "ᵍ"
-	case 't':
-		return Phase.Rotations, "⟳"
-	case 'f':
-		return func(a Phase) float64 { return a.Rotations() * 100 }, "%"
-	case 'b':
-		return Phase.BinaryDegrees, "b"
-	case 'd', 'v', '°':
-		fallthrough
-	default:
-		return Phase.Degrees, "°"
-	}
-}
+type Direction Phase
 
 func (a Direction) WriteCourse(w io.Writer) {
 	switch a >> (bits - 5) {
