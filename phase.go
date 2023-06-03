@@ -25,27 +25,27 @@ const (
 )
 
 func (a Phase) Degrees() float64 {
-	return float64(a) *(1.0 / float64(Degree))
+	return float64(a) * (1.0 / float64(Degree))
 }
 
 func (a Phase) Radians() float64 {
-	return float64(a) *(1.0 / float64(Radian))
+	return float64(a) * (1.0 / float64(Radian))
 }
 
 func (a Phase) Minutes() float64 {
-	return float64(a) *(1.0 / float64(Minute))
+	return float64(a) * (1.0 / float64(Minute))
 }
 
 func (a Phase) Seconds() float64 {
-	return float64(a) *(1.0 / float64(Second))
+	return float64(a) * (1.0 / float64(Second))
 }
 
 func (a Phase) Gradians() float64 {
-	return float64(a) *(1.0 / float64(Gradian))
+	return float64(a) * (1.0 / float64(Gradian))
 }
 
 func (a Phase) BinaryDegrees() float64 {
-	return float64(a) *(1.0 / float64(BinaryDegree))
+	return float64(a) * (1.0 / float64(BinaryDegree))
 }
 
 func (a Phase) Rotations() float64 {
@@ -96,4 +96,3 @@ func scalerAndUnit(scaler rune) (func(Phase) float64, string) {
 		return Phase.Degrees, "°"
 	}
 }
-
