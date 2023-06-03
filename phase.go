@@ -4,8 +4,8 @@ import "fmt"
 import "strconv"
 
 // Phase/Direction are restricted to a single revolution, no multi-turn. these types achieve this simply by using an unsigned int representation with its whole range representing one revolution.
-// Phase's (like time.Duration) have a problem-space and a scaling center zero that are the same as the solution-space zero and so can be multipled.
-// Direction's (like time.Time) have a common 'reference' zero but not a defined scaling center. making it possible to change the 'solution space' value that represents zero. making them fundamentally different.
+// Phase's (like time.Duration) have a problem-space and a scaling centre zero that are the same as the solution-space zero and so can be multiplied.
+// Direction's (like time.Time) have a common 'reference' zero but not a defined scaling centre. making it possible to change the 'solution space' value that represents zero. making them fundamentally different.
 type Phase uint32
 
 type Angle = Phase
@@ -52,7 +52,7 @@ func (a Phase) Rotations() float64 {
 	return float64(a) / (1 << bits)
 }
 
-// phase of fractionals of a rotation
+// phase of fractions of a rotation
 func Rotations(f float64) Phase {
 	return Phase(f * (1 << bits))
 }

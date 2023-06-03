@@ -62,7 +62,7 @@ func ExampleSectorOver() {
 
 func ExampleSectorReverse() {
 	s:=NewSector(Direction(RightAngle*3),Direction(RightAngle),CW)
-	rs:=s.Reverse()  
+	rs:=s.Opposite()  
 	for d:=range Over(Sector{Angle:340*Degree},17){
 		fmt.Printf("%+v %v %v\n", d, s.Contains(d),rs.Contains(d))
 	}
