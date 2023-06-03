@@ -38,7 +38,7 @@ func ExampleDirection_testRangeOverSector() {
 	// 351.000° 353.000° 355.000° 357.000° 359.000° 1.000° 3.000° 5.000° 7.000° 9.000°
 }
 
-func ExampleDirection_testRangeOverSectorVarious2() {
+func ExampleDirection_testRangeOverSectorBothWays() {
 	s := NewSector(Direction(Gradian*10), Direction(Gradian*390), CCW)
 	for a := range OverCCW(s, 9) {
 		fmt.Printf("%+.3v,", a)

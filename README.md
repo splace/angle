@@ -2,7 +2,7 @@
 
 an Angle type. 
 
-encoded as an unsigned integer with its whole range representing one revolution, creating a 'modulus arithmetic' type, the zero so being transparent in the problem-space. only up to 1 revolution can be represented, higher/lower vales are automatically converted to the same angle within one revolution. so there is no way to represent multi-turn angles in a single value.
+encoded as an unsigned integer with its whole range representing one revolution, creating a 'modulus arithmetic' type, the zero so being transparent in the problem-space. only up to 1 revolution can be represented, higher/lower vales are automatically converted to the same angle within one revolution. so multi-turn angles need to held as an Angle plus an integer number of rotations.
 
 this modulus behaviour occurs fundamentally, so this type doesn't require/have its own maths operators.
 
@@ -22,7 +22,6 @@ func ExampleAngles() {
 	// Output:
 	// 57.3 degrees == 1㎭ == 57.295784° == 3438′ == 57°18′44″
 	// 90.0 degrees == 1.5707964㎭ == 90°0′0″ == 324002″ == 100.0ᵍ
-
 }
 ```
 
@@ -46,7 +45,7 @@ Note: constants report an out of range error when used beyond one rotation, repl
 
 a Sector encodes an angular region using a Direction and an Angle/Phase, the Angle being the size of the region, in a positive sense, from the Direction. so Sections don't have a winding.
 
-Sectors are inclusive, so representing all angle's requires Angle.Phase set to one base unit less. (0-1), with any Direction. an empty value is no angles.
+Sectors are inclusive, so to represent all angle's in a rotation requires its Angle/Phase set to one base unit less. (0-1). an empty value is no angles.
 
 example: range over a Sector clockwise from 390 gradians to 10 gradians, show degree.
 

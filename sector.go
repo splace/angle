@@ -33,11 +33,12 @@ func (s Sector) Contains(a Direction) bool {
 	}
 }
 
-func (s Sector) Reverse()Sector{
+// Note: the opposite Sector includes the source's end angles.
+func (s Sector) Opposite() Sector{
 	return Sector{Direction(s.Angle+Angle(s.Direction)),-s.Angle}  
 }
 
-// return Direction's (one more than steps) evenly dividing a sector
+// Over return's Direction's (one more than steps) evenly dividing a sector
 // Note: can simply range using a fixed Angle step, but this function can be used to reduce rounding errors particularly when the divisions are very small.
 func Over(s Sector, steps uint) <-chan Direction {
 	as := make(chan Direction)
