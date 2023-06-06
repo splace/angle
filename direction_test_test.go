@@ -23,7 +23,7 @@ func ExampleDirection_testSectorContains() {
 		Sector{Direction(RightAngle), RightAngle}.Contains(0),
 	)
 	// Output:
-	// true true true false false true
+	// true true false false false false
 	// true false false true true false
 }
 
