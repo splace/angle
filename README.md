@@ -45,8 +45,6 @@ Note: constants report an out of range error when used beyond one rotation, repl
 
 a Sector encodes an angular region using a Direction and an Angle/Phase, the Angle being the size of the region, in a positive sense, from the Direction. so Sections don't have a winding.
 
-Sectors are inclusive, so to represent all angle's in a rotation requires its Angle/Phase set to one base unit less. (0-1). an empty value is no angles.
-
 example: range over a Sector clockwise from 390 gradians to 10 gradians, show degree.
 
 [Iteration Example](https://go.dev/play/p/j30uc46iTBb)

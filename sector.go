@@ -27,13 +27,12 @@ func NewSector(from, too Direction, t Turn) Sector {
 func (s Sector) Contains(a Direction) bool {
 	if u := s.Direction + Direction(s.Angle); u < s.Direction {
 		// sector crosses zero
-		return a >= s.Direction || a <= u
+		return a >= s.Direction || a < u
 	} else {
-		return a >= s.Direction && a <= u
+		return a >= s.Direction && a < u
 	}
 }
 
-// Note: the opposite Sector includes the source's end angles.
 func (s Sector) Opposite() Sector{
 	return Sector{Direction(s.Angle+Angle(s.Direction)),-s.Angle}  
 }

@@ -19,10 +19,10 @@ func ExampleSectorContains() {
 	// Output:
 	// true
 	// true
-	// true
 	// false
 	// false
-	// true
+	// false
+	// false
 	// true
 	// false
 	// true
