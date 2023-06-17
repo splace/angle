@@ -2,7 +2,7 @@
 
 an Angle type. 
 
-encoded as an unsigned integer with its whole range representing one revolution, creating a 'modulus arithmetic' type, the zero so being transparent in the problem-space. only up to 1 revolution can be represented, higher/lower vales are automatically converted to the same angle within one revolution. so multi-turn angles need to held as an Angle plus an integer number of rotations.
+encoded as an unsigned integer with the intergers whole range representing one revolution, creating a 'modulus arithmetic' type, the zero so being transparent in the problem-space. only up to 1 revolution can be represented, thus higher/lower values are automatically converted to the same angle within one revolution. multi-turn angles need to held as an Angle plus an integer number of rotations.
 
 this modulus behaviour occurs fundamentally, so this type doesn't require/have its own maths operators.
 
