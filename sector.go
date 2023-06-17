@@ -16,9 +16,9 @@ type Sector struct {
 }
 
 // Sector between two Directions.
-func NewSectorCW(from, too Direction, t Turn) Sector {
+func NewSector(from, too Direction, t Turn) Sector {
 	if t == CW {
-		return NewSectorCW(from,to)
+		return NewSectorCW(from,too)
 	}
 	return NewSectorCCW(from,too)
 }
