@@ -9,18 +9,25 @@ const (
 	CCW
 )
 
-// Sector is an angular region starting at a Direction having an Angle width.
+// Sector is an angular region starting at a Direction and having an Angle width.
 type Sector struct {
 	Direction
 	Angle
 }
 
 // Sector between two Directions.
-// using the Turn (WRT the first parameter direction) to indicate which of the two possible regions.
-func NewSector(from, too Direction, t Turn) Sector {
+func NewSectorCW(from, too Direction, t Turn) Sector {
 	if t == CW {
-		return Sector{from, Angle(too - from)}
+		return NewSectorCW(from,to)
 	}
+	return NewSectorCCW(from,too)
+}
+
+func NewSectorCW(from, too Direction) Sector {
+	return Sector{from, Angle(too - from)}
+}
+
+func NewSectorCCW(from, too Direction) Sector {
 	return Sector{too, Angle(from - too)}
 }
 

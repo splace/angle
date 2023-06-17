@@ -30,7 +30,7 @@ func ExampleDirection_testSectorContains() {
 // range clockwise 20 gradians from 390 gradians in 9 steps, show values in degrees.
 // Notice: 10gradians == 9degrees, so 9 divisions splitting 20 gradiens should be 10 angles in 2 degree steps.
 func ExampleDirection_testRangeOverSector() {
-	for a := range Over(NewSector(Direction(Gradian*390), Direction(Gradian*10), CW), 9) {
+	for a := range Over(NewSectorCW(Direction(Gradian*390), Direction(Gradian*10)), 9) {
 		fmt.Printf("%+.3v ", a)
 	}
 	fmt.Println()
@@ -39,7 +39,7 @@ func ExampleDirection_testRangeOverSector() {
 }
 
 func ExampleDirection_testRangeOverSectorBothWays() {
-	s := NewSector(Direction(Gradian*10), Direction(Gradian*390), CCW)
+	s := NewSectorCCW(Direction(Gradian*10), Direction(Gradian*390))
 	for a := range OverCCW(s, 9) {
 		fmt.Printf("%+.3v,", a)
 	}
