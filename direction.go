@@ -3,6 +3,7 @@ package angle
 import "fmt"
 import "io"
 
+// Direction's (like time.Time) have a common 'reference' zero but not a defined scaling centre so shouldn't be multiplied. (essentially zero is undefined in the 'solution space', and could take any, consistent, value).
 type Direction Phase
 
 func (a Direction) WriteCourse(w io.Writer) {

@@ -1,12 +1,10 @@
+// Phase/Direction types are restricted to a single revolution, no multi-turn. these types achieve this simply by using an unsigned int representation with its whole range representing one revolution.
 package angle
 
 import "fmt"
 import "strconv"
 
-// Phase/Direction types are restricted to a single revolution, no multi-turn. these types achieve this simply by using an unsigned int representation with its whole range representing one revolution.
-// Despite being the same underlying type;
-// Direction's (like time.Time) have a common 'reference' zero but not a defined scaling centre so shouldn't be multiplied. (essentially zero is undefined in the 'solution space', and could take any, consistent, value).
-// Phase's (like time.Duration) are fundamentally different they have a problem-space and a scaling centre zero that are the same as the solution-space zero and so can be multiplied.
+// Phase's (like time.Duration) have a problem-space and a scaling centre zero that are the same as the solution-space zero and so can be multiplied.
 type Phase uint32
 
 type Angle = Phase

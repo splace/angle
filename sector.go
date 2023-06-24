@@ -17,7 +17,7 @@ type Sector struct {
 
 // Sector between two Directions.
 func NewSector(from, too Direction, t Turn) Sector {
-	if t == CW {
+	if t == Clockwise {
 		return NewSectorCW(from,too)
 	}
 	return NewSectorCCW(from,too)
