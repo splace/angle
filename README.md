@@ -2,7 +2,7 @@
 
 an Angle type. 
 
-encoded as an unsigned integer with the intergers whole range representing one revolution, creating a 'modulus arithmetic' type, the zero so being transparent in the problem-space. only up to 1 revolution can be represented, thus higher/lower values are automatically converted to the same angle within one revolution. multi-turn angles need to held as an Angle plus an integer number of rotations.
+encoded as an unsigned integer with its whole range representing one revolution, thus creating a 'modulus arithmetic' type. multi-turn angles need to held as an Angle and a number of rotations.
 
 this modulus behaviour occurs fundamentally, so this type doesn't require/have its own maths operators.
 
@@ -10,7 +10,7 @@ potentially a pattern for other problem-space types with similar behaviour.
 
 Overview/docs: [![GoDoc](https://godoc.org/github.com/splace/angle?status.svg)](https://godoc.org/github.com/splace/angle)
 
-different scalings (degrees, radians etc) are out-of-context. Only for human readability or access to external processes. (like hardware acceleration requiring radians)
+different scalings (degrees, radians etc) are out of the solution context. Only for human readability or access to external processes. (like hardware acceleration requiring radians)
 
 example of various human readable formats...
 
@@ -25,17 +25,20 @@ func ExampleAngles() {
 }
 ```
 
-# encoded as integers.
+# why integers.
 
-angles are symmetrical, no particular value is special, so a float representation with its higher precision closer to the zero value, is a mismatched behaviour.
+angles are symmetrical, no particular value is special, so a float representation with its higher precision closer to the zero value, is a mismatched characteristic.
 
-angles (Angle/Phase and Direction types) shouldn't be multiplied with themselves or each other.
+# Use
 
-and, specifically, Direction's shouldn't be added/subtracted from other Directions.
+Angle/Phase and Direction types shouldn't be multiplied amongst themselves.
 
-Formula, say involving sin/cos, with intermediate steps involving small angles, need to be handled with floats throughout (unless rounding errors when using this angle is determined to be OK). these intermediate steps might be considered as not being angles but Angle/Phase differences, so this might be expected. 
+Direction's shouldn't be added/subtracted from other Directions.
 
 360 degrees (or 2Pi radians etc.) is just 0, and so is encoded/returned as 0 degrees. ( or 0 radians etc).
+
+in formula, say involving sin/cos, with intermediate steps involving small angles, angles need to be handled with floats throughout (unless rounding errors when using this angle is determined to be OK). these intermediate steps might be considered as not being angles but Phase differences, so this might be expected. 
+
 
 Power of two fractions of a rotation, are represented exactly, eg. 64*BinaryDegree==RightAngle, but in general multiplying a scaled angle can result in an in-exact representation, eg. 90*Degree!=RightAngle, (but RightAngle/90==Degree) use the usual approaches to limit rounding errors.
 
@@ -43,7 +46,7 @@ Note: constants report an out of range error when used beyond one rotation, repl
 
 # Sector
 
-a Sector encodes an angular region using a Direction and an Angle/Phase, the Angle being the size of the region, in a positive sense, from the Direction. so Sections don't have a winding.
+a Sector encodes an angular region using a Direction and an Angle, the Angle being the width of the region.
 
 example: range over a Sector clockwise from 390 gradians to 10 gradians, show degree.
 
