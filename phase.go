@@ -1,10 +1,10 @@
-// Phase/Direction types are restricted to a single revolution, no multi-turn. these types achieve this simply by using an unsigned int representation with its whole range representing one revolution.
+// Phase/Direction types are restricted to a single revolution, no multi-turn. these types achieve this simply by using an unsigned int representation with its whole range representing one revolution. overflows result in the correct value.
 package angle
 
 import "fmt"
 import "strconv"
 
-// Phase's (like time.Duration) have a problem-space and a scaling centre zero that are the same as the solution-space zero and so can be multiplied.
+// Phase's (like time.Duration) have a problem-space and a scaling centre zero that is the same as the solution-space zero and so make sense to be multiplied.
 type Phase uint32
 
 type Angle = Phase
@@ -22,6 +22,8 @@ const (
 	BinaryDegree Phase = 1 << (bits - 8) // 256 per rotation.  equal to about about 1.42 degrees
 
 )
+
+// "1.0/float(x)" used below to encourage compiler to optimise.
 
 func (a Phase) Degrees() float64 {
 	return float64(a) * (1.0 / float64(Degree))
@@ -47,6 +49,7 @@ func (a Phase) BinaryDegrees() float64 {
 	return float64(a) * (1.0 / float64(BinaryDegree))
 }
 
+// fraction of a rotation a Phase represents
 func (a Phase) Rotations() float64 {
 	return float64(a) / (1 << bits)
 }
@@ -54,6 +57,10 @@ func (a Phase) Rotations() float64 {
 // Phase of fractions of a rotation
 func Rotations(f float64) Phase {
 	return Phase(f * (1 << bits))
+}
+
+func Radians2Angle(r float64) Angle {
+	return Angle(float64(Radian)*r)
 }
 
 func (a Phase) Format(f fmt.State, r rune) {

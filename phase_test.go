@@ -1,6 +1,7 @@
 package angle
 
 import "fmt"
+import "math"
 
 func ExamplePhasePrint() {
 	fmt.Printf("%.1v degrees == %+[1]r == %+[1]v == %+.0[1]l == %+.2[1]f\n", Radian)
@@ -60,4 +61,11 @@ func ExamplePhaseRotations() {
 	// Output:
 	// 0.50⟳
 	// 0.50⟳
+}
+
+
+func ExamplePhasePolar() {
+	fmt.Printf("%+t %.4v\n", Radians2Angle(math.Atan2(5,5)),math.Hypot(5,5))
+	// Output:
+	// 0.125⟳ 7.071
 }

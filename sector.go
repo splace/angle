@@ -45,7 +45,7 @@ func (s Sector) Opposite() Sector{
 }
 
 // Over return's Direction's (one more than steps) evenly dividing a sector
-// Note: can simply range using a fixed Angle step, but this function can be used to reduce rounding errors particularly when the divisions are very small.
+// Note: can simply range using a fixed Angle step, but this function can be used to reduce rounding errors particularly when the divisions are very small and error accumulates.
 func Over(s Sector, steps uint) <-chan Direction {
 	as := make(chan Direction)
 	go func() {
